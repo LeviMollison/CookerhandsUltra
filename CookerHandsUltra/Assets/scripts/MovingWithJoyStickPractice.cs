@@ -3,18 +3,28 @@ using System.Collections;
 
 public class MovingWithJoyStickPractice : MonoBehaviour {
 
-	private Transform myTransform;
-	public float moveSpeed;
+	public float speed = 6.0F;
+	public float jumpSpeed = 8.0F;
+	private Vector3 moveDirection = Vector3.zero;
+
 	// Use this for initialization
 	void Start () {
 
-		myTransform = GetComponent<Transform>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-	/*
+		CharacterController controller = GetComponent<CharacterController>();
+		moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("4th Axis"), Input.GetAxis("Vertical"));
+			moveDirection = transform.TransformDirection(moveDirection);
+			moveDirection *= speed;
+
+		controller.Move(moveDirection * Time.deltaTime);
+	}
+}
+
+/*
 		Joystick Configurations
 		Buttons
 	    Square  = joystick button 0
@@ -36,14 +46,9 @@ public class MovingWithJoyStickPractice : MonoBehaviour {
 	    LeftStickX      = X-Axis
 	    LeftStickY      = Y-Axis (Inverted?)
 	    RightStickX     = 3rd Axis
-	    RightStickY     = 4th Axis (Inverted?)
+	    RightStickY     = 6th Axis (Inverted?)
 	    L2              = 5th Axis (-1.0f to 1.0f range, unpressed is -1.0f)
-	    R2              = 6th Axis (-1.0f to 1.0f range, unpressed is -1.0f)
+	    R2              = 4th Axis (-1.0f to 1.0f range, unpressed is -1.0f)
 	    DPadX           = 7th Axis
 	    DPadY           = 8th Axis (Inverted?)
 	*/
-		if (Input.GetKey (KeyCode.JoystickButton1)) { // x
-			myTransform.position += myTransform.forward * Time.deltaTime * moveSpeed;
-		}
-	}
-}
