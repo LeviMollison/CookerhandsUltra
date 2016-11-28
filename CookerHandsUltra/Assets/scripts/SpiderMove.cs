@@ -10,14 +10,15 @@ public class SpiderMove : MonoBehaviour {
     public bool food = false;
 
 
-	// Use this for initialization
-	void Start () {
-        border = new Vector3(2.1f,-2.4f,0);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        //Run from left to right
+    // Use this for initialization
+    void Start()
+    {
+        border = new Vector3(2.1f, 6f, 0);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (!food)
         {
             transform.position += (target.position - transform.position).normalized * speed * Time.deltaTime;
