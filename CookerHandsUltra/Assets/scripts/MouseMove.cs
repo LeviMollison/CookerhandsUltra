@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpiderMove : MonoBehaviour {
+public class MouseMove : MonoBehaviour {
 
     public Transform target;
     private Vector3 border;
@@ -13,17 +13,17 @@ public class SpiderMove : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        border = new Vector3(transform.position.x, 6f, 0);
+        border = new Vector3(9f, transform.position.y, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Run from left to right
         if (!food)
         {
             transform.position += (target.position - transform.position).normalized * speed * Time.deltaTime;
             gotFood();
-            
         }
         else
         {
@@ -33,7 +33,7 @@ public class SpiderMove : MonoBehaviour {
 
     void gotFood()
     {
-        if (transform.position.y < target.position.y)
+        if (transform.position.x > target.position.x)
         {
             food = true;
         }
