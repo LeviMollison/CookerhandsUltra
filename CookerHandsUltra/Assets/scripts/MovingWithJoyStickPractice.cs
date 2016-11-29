@@ -16,7 +16,9 @@ public class MovingWithJoyStickPractice : MonoBehaviour {
 	void Update () {
 
 		CharacterController controller = GetComponent<CharacterController>();
-		moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("4th Axis"), Input.GetAxis("Vertical"));
+		// If you want them to move with both analogs
+		 // moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("4th Axis"), 0);
+			moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
 
@@ -46,9 +48,9 @@ public class MovingWithJoyStickPractice : MonoBehaviour {
 	    LeftStickX      = X-Axis
 	    LeftStickY      = Y-Axis (Inverted?)
 	    RightStickX     = 3rd Axis
-	    RightStickY     = 6th Axis (Inverted?)
+	    RightStickY     = 4th Axis (Inverted?)
 	    L2              = 5th Axis (-1.0f to 1.0f range, unpressed is -1.0f)
-	    R2              = 4th Axis (-1.0f to 1.0f range, unpressed is -1.0f)
+	    R2              = 6th Axis (-1.0f to 1.0f range, unpressed is -1.0f)
 	    DPadX           = 7th Axis
 	    DPadY           = 8th Axis (Inverted?)
 	*/
