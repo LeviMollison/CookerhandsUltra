@@ -13,17 +13,18 @@ public class GrabThings : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter(Collision col) {
-		Debug.Log ("Touching Something");
-		if (col.gameObject.tag == "Square") {
-			Debug.Log ("Being Touched");
-			if (Input.GetKey (KeyCode.JoystickButton1)) {
-				Debug.Log ("Being Grabbed");
-				GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
+	void OnTriggerStay(Collider col){
+		GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
+		if (Input.GetKey(KeyCode.JoystickButton1)) {
+			if (!obj.grabbed) {
 				obj.toggleGrabbed (true);
-			}
+				Debug.Log ("Being Grabbed");
 
+			} 
 		}
-
+		if(Input.GetKeyUp(KeyCode.JoystickButton1)){
+			obj.toggleGrabbed (false);
+			Debug.Log ("Released");
+		}
 	}
 }

@@ -4,21 +4,24 @@ using System.Collections;
 public class GrabbableObject : MonoBehaviour {
 
 	public Transform target;
-	public bool grabbed;
+	public bool grabbed = false;
 	// Use this for initialization
 	void Start () {
-		grabbed = true;
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (grabbed) {
 			// move connected to player
-			transform.position = new Vector3(target.position.x - 1.0f, target.position.y, 0.0f);
+			transform.position = new Vector3 (target.position.x, target.position.y, 0.0f);
+		} else {
+			transform.position = new Vector3 (transform.position.x, transform.position.y, 0.0f);
 		}
 	}
 
 	public void toggleGrabbed(bool val){
+		// Testing Push
 		grabbed = val;
 	}
 }
