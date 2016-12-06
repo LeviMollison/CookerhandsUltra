@@ -6,8 +6,7 @@ public class MouseGenerator : MonoBehaviour {
 
     public MouseMove mouse;
     public List<MouseMove> mice;
-
-    int mouseCount = 0;
+    public FoodGenerator foodMaking;
 
     // Use this for initialization
     void Start () {
@@ -16,12 +15,16 @@ public class MouseGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (mouseCount < 5)
+        for (int i = 0; i < foodMaking.food.Count; i++)
         {
-            Vector3 position = new Vector3(9f, -2.4f, 0);
-            MouseMove item = (MouseMove)Instantiate(mouse, position, transform.rotation);
-            mice.Add(item);
-            mouseCount++;
+            if (!foodMaking.food[i].targeted)
+            {
+                Vector3 position = new Vector3(-9f, foodMaking.food[i].transform.position.y, 0);
+                MouseMove item = (MouseMove)Instantiate(mouse, position, transform.rotation);
+                item.target = foodMaking.food[i];
+                foodMaking.food[i].targeted = true;
+                mice.Add(item);
+            }
         }
     }
 }

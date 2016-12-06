@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MouseMove : MonoBehaviour {
 
-    public Transform target;
+    public FoodClass target;
     private Vector3 border;
 
     public float speed;
@@ -22,8 +22,7 @@ public class MouseMove : MonoBehaviour {
         //Run from left to right
         if (!food)
         {
-            transform.position += (target.position - transform.position).normalized * speed * Time.deltaTime;
-            gotFood();
+            transform.position += (target.transform.position - transform.position).normalized * speed * Time.deltaTime;
         }
         else
         {
@@ -31,11 +30,12 @@ public class MouseMove : MonoBehaviour {
         }
     }
 
-    void gotFood()
+    void OnTriggerEnter(Collider other)
     {
-        if (transform.position.x > target.position.x)
+        if (other.gameObject.tag == "Food")
         {
-            food = true;
+            Debug.Log("colliding with food");
+            this.food = true;
         }
     }
 }

@@ -6,8 +6,7 @@ public class FlyGenerator : MonoBehaviour {
 
     public FlyMove fly;
     public List<FlyMove> flies;
-
-    int flyCount = 0;
+    public FoodGenerator makeFood;
 
     // Use this for initialization
     void Start () {
@@ -16,12 +15,16 @@ public class FlyGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (flyCount < 5)
+        for (int i = 0; i < makeFood.food.Count; i++)
         {
-            Vector3 position = new Vector3(Random.Range(-7f, 7f), 8f, 0);
-            FlyMove item = (FlyMove)Instantiate(fly, position, transform.rotation);
-            flies.Add(item);
-            flyCount++;
+            if (!makeFood.food[i].targeted)
+            {
+                Vector3 position = new Vector3(Random.Range(-7f, 7f), 8f, 0);
+                FlyMove item = (FlyMove)Instantiate(fly, position, transform.rotation);
+                item.target = makeFood.food[i];
+                makeFood.food[i].targeted = true;
+                flies.Add(item);
+            }
         }
     }
 }

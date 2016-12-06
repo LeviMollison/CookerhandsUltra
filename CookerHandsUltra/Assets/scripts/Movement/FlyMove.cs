@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FlyMove : MonoBehaviour {
 
-    public Transform target;
+    public FoodClass target;
     public Collision obj;
 
     private Vector3 border;
@@ -19,16 +19,13 @@ public class FlyMove : MonoBehaviour {
 	void Update () {
         if (!food)
         {
-            Vector3 direction = target.position - transform.position;
+            Vector3 direction = target.transform.position - transform.position;
 
             //turn our enemy to look in the direction of the vector.
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), .2f);
 
             //move our enemy in the direction of the player
             transform.position += direction.normalized * Time.deltaTime * speed;
-
-            //OnCollisionEnter(obj);
-            gotFood();
 
         }
         else
@@ -39,20 +36,12 @@ public class FlyMove : MonoBehaviour {
         }
     }
 
-    void gotFood()
-    {
-        if (transform.position.x > target.position.x)
-        {
-            food = true;
-        }
-    }
-
-    /*void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Food")
         {
-            food = true;
-            border = new Vector3(Random.Range(-10f, 10f), 6f, 0);
+            Debug.Log("colliding with food");
+            this.food = true;
         }
-    }*/
+    }
 }

@@ -30,11 +30,4 @@ public class FoodClass : MonoBehaviour {
             this.transform.parent = other.transform;
         }
     }
-
-    public bool getTargeted(){return targeted;}
-
-    public float getX(){return transform.position.x;}
-
-    public void setTargeted(){targeted = true;}
-
 }

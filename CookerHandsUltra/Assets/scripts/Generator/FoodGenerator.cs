@@ -29,9 +29,4 @@ public class FoodGenerator : MonoBehaviour {
             //Count to know how many elements you have
         }
     }
-
-    public List<FoodClass> getList()
-    {
-        return food;
-    }
 }

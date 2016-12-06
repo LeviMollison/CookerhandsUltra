@@ -8,8 +8,6 @@ public class SpiderGenerator : MonoBehaviour {
     public List<SpiderMove> spiders;
     public FoodGenerator foodGen;
 
-    int spiderCount = 0;
-
 	// Use this for initialization
 	void Start () {
         
@@ -21,13 +19,16 @@ public class SpiderGenerator : MonoBehaviour {
         //I need to track which spider spawned for which food and no repeats.
         
 
-        if(spiderCount < 5)
+        for(int i = 0; i < foodGen.food.Count; i++)
         {
-            
-            Vector3 position = new Vector3(Random.Range(-7f, 7f), 8f, 0);
-            SpiderMove item = (SpiderMove)Instantiate(spider, position, transform.rotation);
-            spiders.Add(item);
-            spiderCount++;
+            if (!foodGen.food[i].targeted)
+            {
+                Vector3 position = new Vector3(foodGen.food[i].transform.position.x, 8f, 0);
+                SpiderMove item = (SpiderMove)Instantiate(spider, position, transform.rotation);
+                item.target = foodGen.food[i];
+                foodGen.food[i].targeted = true;
+                spiders.Add(item);
+            }
         }
     }
 }

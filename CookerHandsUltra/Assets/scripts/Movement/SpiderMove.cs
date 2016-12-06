@@ -4,11 +4,11 @@ using System.Collections;
 public class SpiderMove : MonoBehaviour {
 
     private Vector3 border;
-    public Transform target;
+    public FoodClass target;
 
     public float speed;
     public bool food = false;
-    //public bool dead = false;
+    public bool dead = false;
 
     // Use this for initialization
     void Start()
@@ -21,7 +21,7 @@ public class SpiderMove : MonoBehaviour {
     {
         if (!food)
         {
-            transform.position += (target.position - transform.position).normalized * speed * Time.deltaTime;
+            transform.position += (target.transform.position - transform.position).normalized * speed * Time.deltaTime;
         }
         else
         {
@@ -34,24 +34,12 @@ public class SpiderMove : MonoBehaviour {
         }*/
     }
 
-    public bool getFood(){return food;}
-
-    public float getX(){return transform.position.x;}
-
-    public float getY(){return transform.position.y;}
-
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Food")
         {
-            Debug.Log("colliding");
-            food = true;
+            Debug.Log("colliding with food");
+            this.food = true;
         }
     }
-
-    /*void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("colliding");
-        food = true;
-    }*/
 }
