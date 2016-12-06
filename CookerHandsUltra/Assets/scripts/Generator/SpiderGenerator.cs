@@ -30,5 +30,11 @@ public class SpiderGenerator : MonoBehaviour {
                 spiders.Add(item);
             }
         }
+
+		for (int i = 0; i < spiders.Count; i++) {
+			if (spiders [i].dead) {
+				spiders.RemoveAt (i);
+			}
+		}
     }
 }

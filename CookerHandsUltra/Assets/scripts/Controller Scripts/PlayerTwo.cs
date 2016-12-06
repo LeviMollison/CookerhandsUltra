@@ -5,12 +5,10 @@ public class PlayerTwo : MonoBehaviour {
 
 	public float speed = 3.0F;
 	public float jumpSpeed = 8.0F;
-	private Rigidbody character;
 	private Vector3 moveDirection = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
-		character = GetComponent<Rigidbody>();
 	}
 
 	// Update is called once per frame
@@ -18,7 +16,7 @@ public class PlayerTwo : MonoBehaviour {
 
 		CharacterController controller = GetComponent<CharacterController>();
 
-		moveDirection = new Vector3(Input.GetAxis("PlayerTwoX"), Input.GetAxis("PlayerTwoY"), 0);
+		moveDirection = new Vector3(Input.GetAxis("PlayerTwoX"), Input.GetAxis("PlayerTwoY"), 0.0f);
 		moveDirection = transform.TransformDirection(moveDirection);
 		moveDirection *= speed;
 		controller.Move(moveDirection * Time.deltaTime);

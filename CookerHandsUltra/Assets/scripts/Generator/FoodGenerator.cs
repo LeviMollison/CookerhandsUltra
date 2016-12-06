@@ -6,6 +6,7 @@ public class FoodGenerator : MonoBehaviour {
 
     public FoodClass slice;
     public List<FoodClass> food;
+	public GameObject manager;
     //public Knife knife;
 
     // Use this for initialization
@@ -18,7 +19,8 @@ public class FoodGenerator : MonoBehaviour {
         //if(knife.cutAlready)
 	    if(food.Count < 5)
         {
-            Vector3 position = new Vector3(Random.Range(-7f, 7f), -2.4f, 0);
+			Vector3 position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel()-7.0f, manager.GetComponent<GameManager>().getLevel()+7.0f)
+				, -2.4f, 0);
             FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
             food.Add(item);
 

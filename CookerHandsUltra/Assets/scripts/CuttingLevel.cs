@@ -2,15 +2,19 @@
 using System.Collections;
 
 public class CuttingLevel : MonoBehaviour {
-
-	GameObject generator;
+	
+	public GameObject generator;
 	// Use this for initialization
 	void Start () {
-		generator.GetComponent<FoodGenerator> ();
+//		for(int i = 0; i < 6; i++){
+//			generator.GetComponent<FoodGenerator> ().createFood(transform.position.x, transform.position.y);	
+//		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (generator.GetComponent<FoodGenerator> ().food.Count == 0 || generator.GetComponent<SpiderGenerator>().spiders.Count == 0) {
+			Debug.Log ("gameover");
+		}
 	}
 }

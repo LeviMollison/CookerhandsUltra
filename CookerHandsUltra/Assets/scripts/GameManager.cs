@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour {
 	public Player playerOne;
 	public Player playerTwo;
 
+	// Levels
+	public GameObject cuttingLevel;
+
 	// Need a max amount of food to be stolen
 	public int maxFood;
 	public int foodStolen;
@@ -23,15 +26,17 @@ public class GameManager : MonoBehaviour {
 	enum levels {titleScreen, cutting, sauteing, grating};
 	levels currentLevel;
 	public GameObject[] cameras;
+	bool switchingLevels;
 
 	// Use this for initialization
 	void Start () {
-		gameTime = 300.0f;
+		gameTime = 180.0f;
 		actualTime = gameTime;
 		maxFood = 10;
 		foodStolen = 0;
 		gameOver = false;
-		currentLevel = levels.titleScreen;
+		currentLevel = levels.cutting;
+		switchingLevels = true;
 
 		// SceneManager.LoadScene(0);
 	}
@@ -59,6 +64,11 @@ public class GameManager : MonoBehaviour {
 		}
 		if (currentLevel == levels.cutting) {
 			// is the level over
+			if (switchingLevels){
+				playerOne.changeLevel ();
+				playerTwo.changeLevel ();
+				switchingLevels = false;
+			}
 		}
 		if (currentLevel == levels.sauteing) {
 			// is the level over
@@ -82,5 +92,12 @@ public class GameManager : MonoBehaviour {
 			return -60.0f;
 		}
 		return 100.0f;
+	}
+
+	public Vector3 getLevelBounds(){
+		if (currentLevel == levels.cutting) {
+			return cuttingLevel.GetComponent<Transform> ().position;
+		}
+		return cuttingLevel.GetComponent<Transform> ().position;
 	}
 }
