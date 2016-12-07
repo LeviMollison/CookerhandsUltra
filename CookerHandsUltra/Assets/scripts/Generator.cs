@@ -38,7 +38,7 @@ public class Generator : MonoBehaviour {
         if (food.Count < 5)
         {
             Debug.Log("Generate Food");
-			Vector3 position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel() - 7.0f, manager.GetComponent<GameManager>().getLevel() + 7.0f)
+			Vector3 position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
                 , -2.4f, 0);
             FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
             food.Add(item);
@@ -56,13 +56,16 @@ public class Generator : MonoBehaviour {
             }
         }
 
+        
 
         //Spider Generator
         if (manager.GetComponent<GameManager>().getLevel() == 100.0f)
-        {
+        {   
             for (int i = 0; i < food.Count; i++)
             {
-                if (!food[i].targeted)
+                float delay = Mathf.Round(Random.Range(0f, 10f));
+                Debug.Log(delay);
+                if (!food[i].targeted && delay == 0f)
                 {
                     Debug.Log("Generate Spider");
                     Vector3 position = new Vector3(food[i].transform.position.x, 8f, 0);
@@ -96,6 +99,8 @@ public class Generator : MonoBehaviour {
         {
             for (int i = 0; i < food.Count; i++)
             {
+                float delay = Mathf.Round(Random.Range(0f, 10f));
+                Debug.Log(delay);
                 if (!food[i].targeted)
                 {
                     Debug.Log("Generate Fly");
@@ -131,6 +136,8 @@ public class Generator : MonoBehaviour {
         {
             for (int i = 0; i < food.Count; i++)
             {
+                float delay = Mathf.Round(Random.Range(0f, 10f));
+                Debug.Log(delay);
                 if (!food[i].targeted)
                 {
                     Debug.Log("Generate Mouse");

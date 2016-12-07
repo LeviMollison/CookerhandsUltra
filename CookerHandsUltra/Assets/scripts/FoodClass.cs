@@ -3,6 +3,7 @@ using System.Collections;
 
 public class FoodClass : MonoBehaviour {
 
+    public bool idle = false;
     public bool targeted = false;
     public bool taken = false;
     public bool gone = false;
@@ -12,7 +13,7 @@ public class FoodClass : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (transform.position.y > 6f)
+        if (transform.position.y > 7f)
         {
             Debug.Log("Food Gone");
             gone = true;
