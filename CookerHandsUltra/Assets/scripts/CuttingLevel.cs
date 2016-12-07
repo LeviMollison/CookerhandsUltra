@@ -13,7 +13,7 @@ public class CuttingLevel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (generator.GetComponent<FoodGenerator> ().food.Count == 0 || generator.GetComponent<SpiderGenerator>().spiders.Count == 0) {
+		if (generator.GetComponent<Generator> ().food.Count == 0 || generator.GetComponent<Generator>().spiders.Count == 0) {
 			Debug.Log ("gameover");
 		}
 	}
