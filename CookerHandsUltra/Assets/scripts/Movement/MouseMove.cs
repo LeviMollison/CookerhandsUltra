@@ -3,11 +3,12 @@ using System.Collections;
 
 public class MouseMove : MonoBehaviour {
 
-    public FoodClass target;
     private Vector3 border;
+    public FoodClass target;
 
     public float speed;
     public bool food = false;
+    public bool dead = false;
 
 
     // Use this for initialization
@@ -20,7 +21,7 @@ public class MouseMove : MonoBehaviour {
     void Update()
     {
         //Run from left to right
-        if (!food)
+        if (!food && target != null)
         {
             transform.position += (target.transform.position - transform.position).normalized * speed * Time.deltaTime;
         }

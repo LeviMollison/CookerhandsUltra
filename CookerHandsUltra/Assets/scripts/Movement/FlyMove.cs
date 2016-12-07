@@ -3,21 +3,21 @@ using System.Collections;
 
 public class FlyMove : MonoBehaviour {
 
-    public FoodClass target;
-    public Collision obj;
-
     private Vector3 border;
-    public float speed;
-    public bool food;
+    public FoodClass target;
 
-	// Use this for initialization
-	void Start () {
+    public float speed;
+    public bool food = false;
+    public bool dead = false;
+
+    // Use this for initialization
+    void Start () {
         border = new Vector3(Random.Range(-10f, 10f), 6f, 0);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (!food)
+        if (!food && target != null)
         {
             Vector3 direction = target.transform.position - transform.position;
 

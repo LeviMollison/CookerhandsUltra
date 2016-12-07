@@ -19,7 +19,7 @@ public class SpiderMove : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!food)
+        if (!food && target != null)
         {
             transform.position += (target.transform.position - transform.position).normalized * speed * Time.deltaTime;
         }
@@ -38,7 +38,6 @@ public class SpiderMove : MonoBehaviour {
     {
         if(other.gameObject.tag == "Food")
         {
-            Debug.Log("colliding with food");
             this.food = true;
         }
     }

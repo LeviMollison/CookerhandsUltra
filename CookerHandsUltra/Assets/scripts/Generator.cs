@@ -35,7 +35,7 @@ public class Generator : MonoBehaviour {
 
         //Food Generator
         //if(knife.cutAlready)
-        if (food.Count< 5)
+        if (food.Count < 5)
         {
             Debug.Log("Generate Food");
 			Vector3 position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel() - 7.0f, manager.GetComponent<GameManager>().getLevel() + 7.0f)
@@ -44,6 +44,17 @@ public class Generator : MonoBehaviour {
             food.Add(item);
         }
 
+        for(int i = 0; i < food.Count; i++)
+        {
+            if(food[i] != null)
+            {
+                if (food[i].gone && food[i].transform.parent == null)
+                {
+                    Destroy(food[i].gameObject);
+                    food.RemoveAt(i);
+                }
+            }
+        }
 
 
         //Spider Generator
@@ -66,6 +77,15 @@ public class Generator : MonoBehaviour {
             {
                 if (spiders[i].dead)
                 {
+                    spiders[i].target.transform.parent = null;
+                    spiders[i].target.targeted = false;
+                    spiders.RemoveAt(i);
+                }
+
+                if(spiders[i].transform.position.y > 8f)
+                {
+                    spiders[i].target.transform.parent = null;
+                    Destroy(spiders[i].gameObject);
                     spiders.RemoveAt(i);
                 }
             }
@@ -86,6 +106,23 @@ public class Generator : MonoBehaviour {
                     flies.Add(item);
                 }
              }
+
+            for (int i = 0; i < flies.Count; i++)
+            {
+                if (flies[i].dead)
+                {
+                    flies[i].target.transform.parent = null;
+                    flies[i].target.targeted = false;
+                    flies.RemoveAt(i);
+                }
+
+                if (flies[i].transform.position.y > 8f)
+                {
+                    flies[i].target.transform.parent = null;
+                    Destroy(flies[i].gameObject);
+                    flies.RemoveAt(i);
+                }
+            }
         }
 
 
@@ -102,6 +139,23 @@ public class Generator : MonoBehaviour {
                     item.target = food[i];
                     food[i].targeted = true;
                     mice.Add(item);
+                }
+            }
+
+            for (int i = 0; i < mice.Count; i++)
+            {
+                if (mice[i].dead)
+                {
+                    mice[i].target.transform.parent = null;
+                    mice[i].target.targeted = false;
+                    mice.RemoveAt(i);
+                }
+
+                if (mice[i].transform.position.x > 9f)
+                {
+                    mice[i].target.transform.parent = null;
+                    Destroy(mice[i].gameObject);
+                    mice.RemoveAt(i);
                 }
             }
         }

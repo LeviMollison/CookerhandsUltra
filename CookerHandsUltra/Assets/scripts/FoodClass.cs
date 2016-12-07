@@ -7,8 +7,6 @@ public class FoodClass : MonoBehaviour {
     public bool taken = false;
     public bool gone = false;
 
-    public bool food = false;
-
 	// Use this for initialization
 	void Start () {}
 	
@@ -16,8 +14,13 @@ public class FoodClass : MonoBehaviour {
 	void Update () {
         if (transform.position.y > 6f)
         {
+            Debug.Log("Food Gone");
             gone = true;
-            Debug.Log("Food is gone");
+        }
+
+        if(transform.parent == null && transform.position.y > -2.4f)
+        {
+            Debug.Log("No Parent and Above Table");
         }
 	}
     
@@ -25,7 +28,6 @@ public class FoodClass : MonoBehaviour {
     {
         if (other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Food Trigger Works");
             taken = true;
             this.transform.parent = other.transform;
         }
