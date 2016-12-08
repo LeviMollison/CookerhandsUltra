@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FoodClass : MonoBehaviour {
 
-    public bool idle = false;
+    public float delay = 1000.0f;
     public bool targeted = false;
     public bool taken = false;
     public bool gone = false;
@@ -22,6 +22,17 @@ public class FoodClass : MonoBehaviour {
         if(transform.parent == null && transform.position.y > -2.4f)
         {
             Debug.Log("No Parent and Above Table");
+        }
+
+        if (transform.position.y == -2.4f)
+        {
+            delay = delay - 0.01f;
+            if(delay < 0f)
+            {
+                targeted = false;
+                delay = 1000.0f;
+            }
+            
         }
 	}
     

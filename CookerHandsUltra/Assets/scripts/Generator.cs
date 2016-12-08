@@ -17,6 +17,7 @@ public class Generator : MonoBehaviour {
     public List<MouseMove> mice;
 
     public GameObject manager;
+    private float delay;
 
     // Use this for initialization
     void Start () {
@@ -38,15 +39,16 @@ public class Generator : MonoBehaviour {
         if (food.Count < 5)
         {
             Debug.Log("Generate Food");
-			Vector3 position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
+            Vector3 position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
                 , -2.4f, 0);
             FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
             food.Add(item);
+
         }
 
-        for(int i = 0; i < food.Count; i++)
+        for (int i = 0; i < food.Count; i++)
         {
-            if(food[i] != null)
+            if (food[i] != null)
             {
                 if (food[i].gone && food[i].transform.parent == null)
                 {
@@ -54,17 +56,19 @@ public class Generator : MonoBehaviour {
                     food.RemoveAt(i);
                 }
             }
+            else
+            {
+                food.RemoveAt(i);
+            }
         }
 
-        
 
         //Spider Generator
         if (manager.GetComponent<GameManager>().getLevel() == 100.0f)
         {   
             for (int i = 0; i < food.Count; i++)
             {
-                float delay = Mathf.Round(Random.Range(0f, 10f));
-                Debug.Log(delay);
+                delay = Mathf.Round(Random.Range(0f, 10f));
                 if (!food[i].targeted && delay == 0f)
                 {
                     Debug.Log("Generate Spider");
@@ -78,6 +82,12 @@ public class Generator : MonoBehaviour {
 
             for (int i = 0; i < spiders.Count; i++)
             {
+                if(spiders[i].target == null)
+                {
+                    Destroy(spiders[i].gameObject);
+                    spiders.RemoveAt(i);
+                }
+
                 if (spiders[i].dead)
                 {
                     spiders[i].target.transform.parent = null;
@@ -85,7 +95,7 @@ public class Generator : MonoBehaviour {
                     spiders.RemoveAt(i);
                 }
 
-                if(spiders[i].transform.position.y > 8f)
+                if(spiders[i].transform.position.y > 8f && spiders[i].target != null)
                 {
                     spiders[i].target.transform.parent = null;
                     Destroy(spiders[i].gameObject);
@@ -99,12 +109,11 @@ public class Generator : MonoBehaviour {
         {
             for (int i = 0; i < food.Count; i++)
             {
-                float delay = Mathf.Round(Random.Range(0f, 10f));
-                Debug.Log(delay);
-                if (!food[i].targeted)
+                delay = Mathf.Round(Random.Range(0f, 10f));
+                if (!food[i].targeted && delay == 0f)
                 {
                     Debug.Log("Generate Fly");
-                    Vector3 position = new Vector3(Random.Range(-7f, 7f), 8f, 0);
+                    Vector3 position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel() - 7.0f, manager.GetComponent<GameManager>().getLevel() + 7.0f), 8f, 0);
                     FlyMove item = (FlyMove)Instantiate(fly, position, transform.rotation);
                     item.target = food[i];
                     food[i].targeted = true;
@@ -114,6 +123,12 @@ public class Generator : MonoBehaviour {
 
             for (int i = 0; i < flies.Count; i++)
             {
+                if (flies[i].target == null)
+                {
+                    Destroy(flies[i].gameObject);
+                    flies.RemoveAt(i);
+                }
+
                 if (flies[i].dead)
                 {
                     flies[i].target.transform.parent = null;
@@ -121,7 +136,7 @@ public class Generator : MonoBehaviour {
                     flies.RemoveAt(i);
                 }
 
-                if (flies[i].transform.position.y > 8f)
+                if (flies[i].transform.position.y > 8f && flies[i].target != null)
                 {
                     flies[i].target.transform.parent = null;
                     Destroy(flies[i].gameObject);
@@ -136,9 +151,8 @@ public class Generator : MonoBehaviour {
         {
             for (int i = 0; i < food.Count; i++)
             {
-                float delay = Mathf.Round(Random.Range(0f, 10f));
-                Debug.Log(delay);
-                if (!food[i].targeted)
+                delay = Mathf.Round(Random.Range(0f, 10f));
+                if (!food[i].targeted && delay == 0f)
                 {
                     Debug.Log("Generate Mouse");
                     Vector3 position = new Vector3(-9f, food[i].transform.position.y, 0);
@@ -151,6 +165,12 @@ public class Generator : MonoBehaviour {
 
             for (int i = 0; i < mice.Count; i++)
             {
+                if (mice[i].target == null)
+                {
+                    Destroy(mice[i].gameObject);
+                    mice.RemoveAt(i);
+                }
+
                 if (mice[i].dead)
                 {
                     mice[i].target.transform.parent = null;
@@ -158,7 +178,7 @@ public class Generator : MonoBehaviour {
                     mice.RemoveAt(i);
                 }
 
-                if (mice[i].transform.position.x > 9f)
+                if (mice[i].transform.position.x > 9f && mice[i].target != null)
                 {
                     mice[i].target.transform.parent = null;
                     Destroy(mice[i].gameObject);
@@ -166,5 +186,5 @@ public class Generator : MonoBehaviour {
                 }
             }
         }
-    }
+    }//End of Update
 }
