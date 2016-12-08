@@ -8,7 +8,7 @@ public class instruction : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        gameTime = 120.0f;
+        gameTime = 60.0f;
         actualTime = gameTime;
     }
 	

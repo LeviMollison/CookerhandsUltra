@@ -9,9 +9,12 @@ public class FoodClass : MonoBehaviour {
     public bool gone = false;
     public bool cut = false;
     public bool collectable = false;
+	public bool collected = false;
+
 
 	// Use this for initialization
-	void Start () {}
+	void Start () {
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,7 +26,7 @@ public class FoodClass : MonoBehaviour {
 
         if(transform.parent == null && transform.position.y > -2.4f)
         {
-            Debug.Log("No Parent and Above Table");
+//            Debug.Log("No Parent and Above Table");
         }
 
         if (transform.position.y == -2.4f)
@@ -50,5 +53,10 @@ public class FoodClass : MonoBehaviour {
             taken = true;
             this.transform.parent = other.transform;
         }
+		if (other.gameObject.tag == "Plate") {
+			gone = true;
+			collected = true;
+		}
     }
+		
 }

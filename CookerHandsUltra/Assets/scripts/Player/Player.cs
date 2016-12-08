@@ -10,12 +10,14 @@ public class Player : MonoBehaviour {
 	enum states {swatting, holding, idle};
 	states currentState;
 
-	float swatTimer;
+	// Player Action Control
+	float enemiesSwatting;
 	bool canSwat;
 	public GameObject gameManager;
 
 	// Use this for initialization
 	void Start () {
+		enemiesSwatting = 0;
 		score = 0;
 		currentState = states.idle;
 		canSwat = true;
@@ -26,24 +28,23 @@ public class Player : MonoBehaviour {
 	void Update () {
 
 		// out of bounds
-		if (transform.position.x > gameManager.GetComponent<GameManager>().getLevelBounds().x+5.0f){
-			transform.position = new Vector3 (gameManager.GetComponent<GameManager>().getLevelBounds().x+5.0f, 
+		if (transform.position.x > gameManager.GetComponent<GameManager>().getLevel()+7.0f){
+			transform.position = new Vector3 (gameManager.GetComponent<GameManager>().getLevel()+7.0f, 
 				transform.position.y, 0);
 			
 		}
+		if (transform.position.x < gameManager.GetComponent<GameManager>().getLevel()-7.0f){
+			transform.position = new Vector3 (gameManager.GetComponent<GameManager>().getLevel()-7.0f, 
+				transform.position.y, 0);
+
+		}
 		// Swatting a spider = +2; swatting mouse +3; swatting fly +1
-		if(states.holding == currentState){
+		if(states.holding == currentState || states.swatting == currentState){
 			canSwat = false;
 		}
 		else{
 			canSwat = true;
 			currentState = states.idle;
-		}
-		if (Input.GetKey(KeyCode.JoystickButton0)){
-			if(canSwat){
-				currentState = states.swatting;
-				swatTimer = Time.time;
-			}
 		}
 		// Swatting should have a CD
 
@@ -51,16 +52,60 @@ public class Player : MonoBehaviour {
 
 	void OnTriggerEnter(Collider enemy){
 		if(enemy.tag == "Enemy"){
-			Debug.Log (currentState);
-			if (currentState == states.swatting) {
-				// Kill the enemy and add to score based on enemy type
-				enemy.gameObject.GetComponent<Enemy>().kill();
-				score += 3;
-			} else {
-				// Subtract from score based on enemy type
-				foodLost();
-				Debug.Log (score);
+			// Kill the enemy and add to score based on enemy type
+			if (Input.GetKey(KeyCode.JoystickButton0) && enemiesSwatting < 1){
+				if(canSwat){
+					currentState = states.swatting;
+					enemy.gameObject.GetComponent<Enemy>().kill();
+					score += 3;
+				}
 			}
+
+		}
+	}
+
+	void OnTriggerStay(Collider col){
+		if (col.gameObject.tag == "knife") {
+			GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
+			// ensure your not swatting or holding something else
+			if (currentState != states.swatting){
+				if (Input.GetKey(KeyCode.JoystickButton1)) {
+					if (!obj.grabbed && currentState != states.holding) {
+						obj.toggleGrabbed (true, transform);
+						currentState = states.holding;
+					} 
+				}
+				if(Input.GetKeyUp(KeyCode.JoystickButton1)){
+					obj.toggleGrabbed (false, transform);
+					currentState = states.idle;
+				}	
+			}
+		}
+		if (col.gameObject.tag == "Food") {
+			if (col.gameObject.GetComponent<FoodClass> ().cut) {
+				GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
+				// ensure your not swatting or holding something else
+				if (currentState != states.swatting){
+					if (Input.GetKey(KeyCode.JoystickButton1)) {
+						if (!obj.grabbed && currentState != states.holding) {
+							obj.toggleGrabbed (true, transform);
+							currentState = states.holding;
+						} 
+					}
+					if(Input.GetKeyUp(KeyCode.JoystickButton1)){
+						obj.toggleGrabbed (false, transform);
+						currentState = states.idle;
+					}	
+				}
+			}
+		}
+
+
+	}
+
+	void OnTriggerExit(Collider col){
+		if (col.gameObject.tag == "Food" && col.gameObject.GetComponent<FoodClass>().collected) {
+			currentState = states.idle;
 		}
 	}
 

@@ -4,19 +4,18 @@ using System.Collections;
 // Checks if knife object is entering object
 public class CuttingAction : MonoBehaviour
 {
-
-    public Transform knife;
-    bool cutting = false;
+	bool cutting;
     
     // Use this for initialization
     void Start()
     {
-
+		cutting = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+		// If it's being held, have it follow the hand
     }
 
     void OnTriggerEnter(Collider foodItem)
