@@ -7,6 +7,8 @@ public class FoodClass : MonoBehaviour {
     public bool targeted = false;
     public bool taken = false;
     public bool gone = false;
+    public bool cut = false;
+    public bool collectable = false;
 
 	// Use this for initialization
 	void Start () {}
@@ -32,7 +34,12 @@ public class FoodClass : MonoBehaviour {
                 targeted = false;
                 delay = 1000.0f;
             }
-            
+        }
+
+        if (cut)
+        {
+            this.GetComponent<Renderer>().material.color = Color.red;
+            collectable = true;
         }
 	}
     
