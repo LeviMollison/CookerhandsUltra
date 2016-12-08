@@ -17,8 +17,10 @@ public class Generator : MonoBehaviour {
     public List<MouseMove> mice;
 
     public GameObject manager;
-    private float delay;
 
+    private Vector3 position;
+    private float delay;
+    
     // Use this for initialization
     void Start () {
 	
@@ -39,7 +41,7 @@ public class Generator : MonoBehaviour {
         if (food.Count < 5)
         {
             Debug.Log("Generate Food");
-            Vector3 position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
+            position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
                 , -2.4f, 0);
             FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
             food.Add(item);
@@ -72,7 +74,7 @@ public class Generator : MonoBehaviour {
                 if (!food[i].targeted && delay == 0f)
                 {
                     Debug.Log("Generate Spider");
-                    Vector3 position = new Vector3(food[i].transform.position.x, 8f, 0);
+                    position = new Vector3(food[i].transform.position.x, 8f, 0);
                     SpiderMove item = (SpiderMove)Instantiate(spider, position, transform.rotation);
                     item.target = food[i];
                     food[i].targeted = true;
@@ -113,7 +115,7 @@ public class Generator : MonoBehaviour {
                 if (!food[i].targeted && delay == 0f)
                 {
                     Debug.Log("Generate Fly");
-                    Vector3 position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel() - 7.0f, manager.GetComponent<GameManager>().getLevel() + 7.0f), 8f, 0);
+                    position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel() - 7.0f, manager.GetComponent<GameManager>().getLevel() + 7.0f), 8f, 0);
                     FlyMove item = (FlyMove)Instantiate(fly, position, transform.rotation);
                     item.target = food[i];
                     food[i].targeted = true;
@@ -155,7 +157,15 @@ public class Generator : MonoBehaviour {
                 if (!food[i].targeted && delay == 0f)
                 {
                     Debug.Log("Generate Mouse");
-                    Vector3 position = new Vector3(-9f, food[i].transform.position.y, 0);
+                    if(Mathf.Round(Random.Range(0f, 10f))/2 == 0)
+                    {
+                        position = new Vector3(manager.GetComponent<GameManager>().getLevel() - 9f, food[i].transform.position.y, 0);
+                    }
+                    else
+                    {
+                        position = new Vector3(manager.GetComponent<GameManager>().getLevel() + 9f, food[i].transform.position.y, 0);
+                    }
+                    
                     MouseMove item = (MouseMove)Instantiate(mouse, position, transform.rotation);
                     item.target = food[i];
                     food[i].targeted = true;
