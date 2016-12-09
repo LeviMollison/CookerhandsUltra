@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/scenes/GameScene.unity
+- path: Assets/scenes/Stella/Scene.unity
   isLoaded: 1
   isActive: 1
