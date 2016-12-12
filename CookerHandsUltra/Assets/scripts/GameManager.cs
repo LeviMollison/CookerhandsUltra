@@ -12,11 +12,15 @@ public class GameManager : MonoBehaviour {
 	public Player1 playerOne;
 	public Player2 playerTwo;
 
-	// Levels
-	public GameObject titleScreen;
-	public GameObject cuttingLevel;
-	public GameObject gameOverLevel;
-	public GameObject sauteingLevel;
+    // Levels
+    public GameObject titleScreen;
+    public GameObject gameOverLevel;
+    public GameObject cuttingLevel;
+    public GameObject sauteingLevel;
+    public GameObject gratingLevel;
+
+    //Generates the food, spiders, flies, mice
+    public GameObject generator;
 
 	// Detecting who won and if the game's over
 	bool gameWon;
@@ -44,8 +48,9 @@ public class GameManager : MonoBehaviour {
 			actualTime -= Time.deltaTime;
 			// If the time hit 0 you lose
 			if (actualTime == 0 && !gameOver){
-				// Bring it to end game screen
-				// Reset the game for now
+                // Bring it to end game screen
+                // Reset the game
+                reset();
 			}
 		}
 		// Do a reset if the game's over back to main title screen
@@ -53,6 +58,7 @@ public class GameManager : MonoBehaviour {
 		if (currentLevel == levels.titleScreen){
 			// SceneManager.LoadScene(1); currentLevel = levels.cutting;
 			if (Input.GetKey(KeyCode.Joystick1Button9)){
+                //Switch camera and scene from title to cutting
 				this.GetComponent<CameraController> ().CameraStart (titleScreen.transform.Find("Main Camera").GetComponent<Camera>(), 
 					cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>());
 				currentLevel = levels.cutting;
@@ -64,7 +70,10 @@ public class GameManager : MonoBehaviour {
 			if (cuttingLevel.GetComponent<CuttingLevel>().levelComplete()){
 				switchingLevels = true;
 				if (cuttingLevel.GetComponent<CuttingLevel> ().levelWon) {
-					currentLevel = levels.sauteing;
+                    //Switch camera and scene from cutting to sauteing
+                    this.GetComponent<CameraController>().CameraStart(cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
+                    sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>());
+                    currentLevel = levels.sauteing;
 					switchingLevels = true;
 					cuttingLevel.SetActive (false);
 				} else {
@@ -81,11 +90,48 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		if (currentLevel == levels.sauteing) {
-			// is the level over
-		}
+            // is the level over
+            if (sauteingLevel.GetComponent<SauteingLevel>().levelComplete())
+            {
+                switchingLevels = true;
+                if (cuttingLevel.GetComponent<SauteingLevel>().levelWon)
+                {
+                    //Switch camera and scene from sauteing to grating
+                    this.GetComponent<CameraController>().CameraStart(sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
+                    gratingLevel.transform.Find("Main Camera").GetComponent<Camera>());
+                    currentLevel = levels.grating;
+                    switchingLevels = true;
+                    sauteingLevel.SetActive(false);
+                }
+                else
+                {
+                    currentLevel = levels.gameOver;
+                    this.GetComponent<CameraController>().CameraStart(sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
+                        gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
+                    sauteingLevel.SetActive(false);
+                }
+            }
+            if (switchingLevels)
+            {
+                playerOne.changeLevel();
+                playerTwo.changeLevel();
+                switchingLevels = false;
+            }
+        }
 		if (currentLevel == levels.grating) {
-			// is the level over
-		}
+            // is the level over
+            if (gratingLevel.GetComponent<GratingLevel>().levelComplete())
+            {
+                //Switch camera and scene from grating to gameOver
+                //this.GetComponent<CameraController>().CameraStart(gratingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
+                //    gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
+       
+                //currentLevel = levels.gameOver;
+
+                //gratingLevel.SetActive(false);
+                
+            }
+        }
 		if (currentLevel == levels.gameOver) {
 			if(Input.GetKey(KeyCode.JoystickButton9)){
 				SceneManager.LoadScene(0);
@@ -106,7 +152,7 @@ public class GameManager : MonoBehaviour {
 		if (currentLevel == levels.grating){
 			return -60.0f;
 		}
-		return 100.0f;
+		return -1f;
 	}
 
 	public Vector3 getLevelBounds(){
@@ -138,4 +184,32 @@ public class GameManager : MonoBehaviour {
 		}
 		return false;
 	}
+
+    //Reset
+    public void reset()
+    {
+        gameTime = 180.0f;
+        actualTime = gameTime;
+        gameOver = false;
+        currentLevel = levels.titleScreen;
+        switchingLevels = true;
+
+        //Clear all lists
+        if (generator.GetComponent<Generator>().food.Count > 0)
+        {
+            generator.GetComponent<Generator>().clearFood();
+        }
+        if (generator.GetComponent<Generator>().spiders.Count > 0)
+        {
+            generator.GetComponent<Generator>().clearSpider();
+        }
+        if (generator.GetComponent<Generator>().flies.Count > 0)
+        {
+            generator.GetComponent<Generator>().clearFly();
+        }
+        if (generator.GetComponent<Generator>().mice.Count > 0)
+        {
+            generator.GetComponent<Generator>().clearMouse();
+        }
+    }
 }
