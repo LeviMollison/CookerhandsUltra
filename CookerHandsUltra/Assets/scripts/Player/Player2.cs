@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour {
+public class Player2 : MonoBehaviour {
 
 	// Need to handle score keeping
 	public int score;
@@ -53,7 +53,7 @@ public class Player : MonoBehaviour {
 	void OnTriggerEnter(Collider enemy){
 		if(enemy.tag == "Enemy"){
 			// Kill the enemy and add to score based on enemy type
-			if (Input.GetKey(KeyCode.JoystickButton0) && enemiesSwatting < 1){
+			if (Input.GetKey(KeyCode.Joystick2Button0) && enemiesSwatting < 1){
 				if(canSwat){
 					currentState = states.swatting;
 					enemy.gameObject.GetComponent<Enemy>().kill();
@@ -69,13 +69,13 @@ public class Player : MonoBehaviour {
 			GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 			// ensure your not swatting or holding something else
 			if (currentState != states.swatting){
-				if (Input.GetKey(KeyCode.JoystickButton1)) {
+				if (Input.GetKey(KeyCode.Joystick2Button1)) {
 					if (!obj.grabbed && currentState != states.holding) {
 						obj.toggleGrabbed (true, transform);
 						currentState = states.holding;
 					} 
 				}
-				if(Input.GetKeyUp(KeyCode.JoystickButton1)){
+				if(Input.GetKeyUp(KeyCode.Joystick2Button1)){
 					obj.toggleGrabbed (false, transform);
 					currentState = states.idle;
 				}	
@@ -86,13 +86,13 @@ public class Player : MonoBehaviour {
 				GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 				// ensure your not swatting or holding something else
 				if (currentState != states.swatting){
-					if (Input.GetKey(KeyCode.JoystickButton1)) {
+					if (Input.GetKey(KeyCode.Joystick2Button1)) {
 						if (!obj.grabbed && currentState != states.holding) {
 							obj.toggleGrabbed (true, transform);
 							currentState = states.holding;
 						} 
 					}
-					if(Input.GetKeyUp(KeyCode.JoystickButton1)){
+					if(Input.GetKeyUp(KeyCode.Joystick2Button1)){
 						obj.toggleGrabbed (false, transform);
 						currentState = states.idle;
 					}	

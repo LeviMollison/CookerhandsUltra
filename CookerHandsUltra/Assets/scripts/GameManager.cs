@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour {
 	private float gameTime;
 
 	// For keeping track of player needs
-	public Player playerOne;
-	public Player playerTwo;
+	public Player1 playerOne;
+	public Player2 playerTwo;
 
 	// Levels
 	public GameObject titleScreen;
