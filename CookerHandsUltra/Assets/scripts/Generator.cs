@@ -41,13 +41,32 @@ public class Generator : MonoBehaviour {
 			//if(knife.cutAlready)
 			if (food.Count < 5)
 			{
-				//            Debug.Log("Generate Food");
-				position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
-					, -2.4f, 0);
-				FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
-				food.Add(item);
-
-			}
+				//Debug.Log("Generate Food");
+                if(manager.GetComponent<GameManager>().getLevel() == 100.0f)
+                {
+                    position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
+                    , -2.4f, 0);
+                    FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
+                    item.GetComponent<FoodClass>().delay = 1000f;
+                    food.Add(item);
+                }
+                else if(manager.GetComponent<GameManager>().getLevel() == 0.0f)
+                {
+                    position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
+                    , -2.4f, 0);
+                    FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
+                    item.GetComponent<FoodClass>().delay = 10f;
+                    food.Add(item);
+                }
+                else if(manager.GetComponent<GameManager>().getLevel() == -60.0f)
+                {
+                    position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
+                    , -2.4f, 0f);
+                    FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
+                    item.GetComponent<FoodClass>().delay = 1000f;
+                    food.Add(item);
+                }
+            }
 
 			for (int i = 0; i < food.Count; i++)
 			{
@@ -58,7 +77,7 @@ public class Generator : MonoBehaviour {
 						if (food [i].collected) {
 							manager.GetComponent<GameManager> ().collectFoodInLevel ();
 						}
-						if (!food [i].collected) {
+                        else {
 							manager.GetComponent<GameManager> ().stealFoodInLevel ();
 						}
 
@@ -72,9 +91,10 @@ public class Generator : MonoBehaviour {
 				}
 			}
 
+            Debug.Log(manager.GetComponent<GameManager>().getLevel());
 
-			//Spider Generator
-			if (manager.GetComponent<GameManager>().getLevel() == 100.0f)
+            //Spider Generator
+            if (manager.GetComponent<GameManager>().getLevel() == 100.0f)
 			{   
 				for (int i = 0; i < food.Count; i++)
 				{
@@ -84,7 +104,7 @@ public class Generator : MonoBehaviour {
 						//                    Debug.Log("Generate Spider");
 						position = new Vector3(food[i].transform.position.x, 8f, 0);
 						SpiderMove item = (SpiderMove)Instantiate(spider, position, transform.rotation);
-						item.target = food[i];
+                        item.target = food[i];
 						food[i].targeted = true;
 						spiders.Add(item);
 					}
@@ -98,14 +118,14 @@ public class Generator : MonoBehaviour {
 						spiders.RemoveAt(i);
 					}
 
-					if (spiders[i].dead)
+					else if (spiders[i].dead)
 					{
 						spiders[i].target.transform.parent = null;
 						spiders[i].target.targeted = false;
 						spiders.RemoveAt(i);
 					}
 
-					if(spiders[i].transform.position.y > 8f && spiders[i].target != null)
+					else if(spiders[i].transform.position.y > 8f && spiders[i].target != null)
 					{
 						spiders[i].target.transform.parent = null;
 						Destroy(spiders[i].gameObject);
@@ -115,8 +135,10 @@ public class Generator : MonoBehaviour {
 			}
 
 			//Fly Generator
-			if (manager.GetComponent<GameManager>().getLevel() == 0.0f)
+			else if (manager.GetComponent<GameManager>().getLevel() == 0.0f)
 			{
+                clearSpider();
+                clearFood();
 				for (int i = 0; i < food.Count; i++)
 				{
 					delay = Mathf.Round(Random.Range(0f, 10f));
@@ -131,34 +153,37 @@ public class Generator : MonoBehaviour {
 					}
 				}
 
-				for (int i = 0; i < flies.Count; i++)
-				{
-					if (flies[i].target == null)
-					{
-						Destroy(flies[i].gameObject);
-						flies.RemoveAt(i);
-					}
+                    for (int i = 0; i < flies.Count; i++)
+                    {
+                        if (flies[i].target == null)
+                        {
+                            Destroy(flies[i].gameObject);
+                            flies.RemoveAt(i);
+                        }
 
-					if (flies[i].dead)
-					{
-						flies[i].target.transform.parent = null;
-						flies[i].target.targeted = false;
-						flies.RemoveAt(i);
-					}
+                        else if (flies[i].dead)
+                        {
+                            flies[i].target.transform.parent = null;
+                            flies[i].target.targeted = false;
+                            flies.RemoveAt(i);
+                        }
 
-					if (flies[i].transform.position.y > 8f && flies[i].target != null)
-					{
-						flies[i].target.transform.parent = null;
-						Destroy(flies[i].gameObject);
-						flies.RemoveAt(i);
-					}
-				}
+                        else if (flies[i].transform.position.y > 8f && flies[i].target != null)
+                        {
+                            flies[i].target.transform.parent = null;
+                            Destroy(flies[i].gameObject);
+                            flies.RemoveAt(i);
+                        }
+                    }
+                
 			}
 
 
 			//Mouse Generator
-			if (manager.GetComponent<GameManager>().getLevel() == -60.0f)
+			else if (manager.GetComponent<GameManager>().getLevel() == -60.0f)
 			{
+                clearFly();
+                clearFood();
 				for (int i = 0; i < food.Count; i++)
 				{
 					delay = Mathf.Round(Random.Range(0f, 10f));
@@ -167,11 +192,11 @@ public class Generator : MonoBehaviour {
 						Debug.Log("Generate Mouse");
 						if(Mathf.Round(Random.Range(0f, 10f))/2 == 0)
 						{
-							position = new Vector3(manager.GetComponent<GameManager>().getLevel() - 9f, food[i].transform.position.y, 0);
+							position = new Vector3(manager.GetComponent<GameManager>().getLevel() - 7f, food[i].transform.position.y, 0f);
 						}
 						else
 						{
-							position = new Vector3(manager.GetComponent<GameManager>().getLevel() + 9f, food[i].transform.position.y, 0);
+							position = new Vector3(manager.GetComponent<GameManager>().getLevel() + 7f, food[i].transform.position.y, 0f);
 						}
 
 						MouseMove item = (MouseMove)Instantiate(mouse, position, transform.rotation);
@@ -189,14 +214,14 @@ public class Generator : MonoBehaviour {
 						mice.RemoveAt(i);
 					}
 
-					if (mice[i].dead)
+					else if (mice[i].dead)
 					{
 						mice[i].target.transform.parent = null;
 						mice[i].target.targeted = false;
 						mice.RemoveAt(i);
 					}
 
-					if (mice[i].transform.position.x > 9f && mice[i].target != null)
+					else if (mice[i].transform.position.x > 9f && mice[i].target != null)
 					{
 						mice[i].target.transform.parent = null;
 						Destroy(mice[i].gameObject);
@@ -206,4 +231,64 @@ public class Generator : MonoBehaviour {
 			}	
 		}
     }//End of Update
+
+    void clearFood()
+    {
+        for(int i = 0; i < food.Count; i++)
+        {
+            if(manager.GetComponent<GameManager>().getLevel() == 0.0f && food[i] != null)
+            {
+                if (95f <= food[i].transform.position.x && food[i].transform.position.x <= 107f)
+                {
+                    Destroy(food[i].gameObject);
+                    food.RemoveAt(i);
+                }                       
+            }
+            else if (manager.GetComponent<GameManager>().getLevel() == -60.0f && food[i] != null)
+            {
+                if(-6f < food[i].transform.position.x && food[i].transform.position.x < 6f)
+                {
+                    Destroy(food[i].gameObject);
+                    food.RemoveAt(i);
+                }       
+            }
+        }
+    }
+    void clearSpider()
+    {
+        for(int i = 0; i < spiders.Count; i++)
+        {
+            if(spiders[i] != null)
+            {
+                Destroy(spiders[i].gameObject);
+                spiders.RemoveAt(i);
+            }
+            
+        }
+    }
+    void clearFly()
+    {
+        for (int i = 0; i < flies.Count; i++)
+        {
+            if(flies[i] != null)
+            {
+                Destroy(flies[i].gameObject);
+                flies.RemoveAt(i);
+            }
+        }
+    }
+    void clearMouse()
+    {
+        for (int i = 0; i < mice.Count; i++)
+        {
+            if (mice[i] != null)
+            {
+                Destroy(mice[i].gameObject);
+                mice.RemoveAt(i);
+            }
+        }
+    }
 }
+
+
+

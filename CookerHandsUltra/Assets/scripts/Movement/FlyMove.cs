@@ -12,7 +12,7 @@ public class FlyMove : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        border = new Vector3(Random.Range(-10f, 10f), 6f, 0);
+        border = new Vector3(Random.Range(-10f, 10f), 8f, 0);
     }
 	
 	// Update is called once per frame
@@ -41,7 +41,7 @@ public class FlyMove : MonoBehaviour {
         if (other.gameObject.tag == "Food")
         {
             Debug.Log("colliding with food");
-            this.food = true;
+            food = true;
         }
     }
 }
