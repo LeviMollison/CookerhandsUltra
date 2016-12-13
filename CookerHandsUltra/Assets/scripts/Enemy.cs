@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour {
 
 	public bool dead;
     public GameObject manager;
+	// all enemies target food
     // Use this for initialization
     void Start () {
 		dead = false;

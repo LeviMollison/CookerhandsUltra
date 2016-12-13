@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	// Game Timer
 	public float actualTime;
-	private float gameTime;
+	public float gameTime;
 
 	// For keeping track of player needs
 	public Player1 playerOne;
@@ -19,13 +19,13 @@ public class GameManager : MonoBehaviour {
 	public GameObject sauteingLevel;
 
 	// Detecting who won and if the game's over
-	bool gameWon;
-	bool gameOver;
+	public bool gameWon;
+	public bool gameOver;
 
 	// Detecting levels
-	enum levels {titleScreen, cutting, sauteing, grating, gameOver};
-	levels currentLevel;
-	bool switchingLevels;
+	public enum levels {titleScreen, cutting, sauteing, grating, gameOver};
+	public levels currentLevel;
+	public bool switchingLevels;
 
 	// Use this for initialization
 	void Start () {
