@@ -3,7 +3,8 @@ using System.Collections;
 
 public class FoodClass : MonoBehaviour {
 
-    public float delay = 1000.0f;
+    public float delay;
+    public float countDown;
     public bool targeted = false;
     public bool taken = false;
     public bool gone = false;
@@ -14,7 +15,8 @@ public class FoodClass : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	}
+        countDown = delay;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,11 +33,11 @@ public class FoodClass : MonoBehaviour {
 
         if (transform.position.y == -2.4f)
         {
-            delay = delay - 0.01f;
-            if(delay < 0f)
+            countDown = countDown - 0.01f;
+            if(countDown < 0f)
             {
                 targeted = false;
-                delay = 1000.0f;
+                countDown = delay;
             }
         }
 
@@ -50,8 +52,8 @@ public class FoodClass : MonoBehaviour {
     {
         if (other.gameObject.tag == "Enemy")
         {
-            taken = true;
             this.transform.parent = other.transform;
+            taken = true;
         }
 		if (other.gameObject.tag == "Plate") {
 			gone = true;
