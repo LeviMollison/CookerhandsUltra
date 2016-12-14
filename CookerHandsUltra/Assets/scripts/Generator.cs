@@ -28,8 +28,8 @@ public class Generator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update() {
-        Debug.Log(manager.GetComponent<GameManager>().getLevel());
-        Debug.Log(manager.GetComponent<GameManager>().levelOn());
+//        Debug.Log(manager.GetComponent<GameManager>().getLevel());
+//        Debug.Log(manager.GetComponent<GameManager>().levelOn());
 
         //When levelOn is true, instantiate food
         if (manager.GetComponent<GameManager>().levelOn()) {

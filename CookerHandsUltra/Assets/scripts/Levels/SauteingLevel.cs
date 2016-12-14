@@ -23,7 +23,7 @@ public class SauteingLevel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if((float)foodStolen / (float)maxFood > 7.0/10.0){
+		if(foodStolen >= maxFood){
 			levelWon = false;
 			levelOver = true;
 		}

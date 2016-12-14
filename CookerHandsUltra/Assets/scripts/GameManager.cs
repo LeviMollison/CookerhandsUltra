@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
+public enum levels {titleScreen, cutting, sauteing, grating, gameOver};
+
 public class GameManager : MonoBehaviour {
 
 	// Game Timer
@@ -27,7 +29,6 @@ public class GameManager : MonoBehaviour {
 	public bool gameOver;
 
 	// Detecting levels
-	public enum levels {titleScreen, cutting, sauteing, grating, gameOver};
 	public levels currentLevel;
 	public bool switchingLevels;
 
@@ -38,6 +39,11 @@ public class GameManager : MonoBehaviour {
 		gameOver = false;
 		currentLevel = levels.titleScreen;
 		switchingLevels = true;
+		titleScreen.SetActive (true);
+		gameOverLevel.SetActive (false);
+		cuttingLevel.SetActive (false);
+		sauteingLevel.SetActive (false);
+		gratingLevel.SetActive (false);
 
 		// SceneManager.LoadScene(0);
 	}
@@ -59,6 +65,7 @@ public class GameManager : MonoBehaviour {
 			// SceneManager.LoadScene(1); currentLevel = levels.cutting;
 			if (Input.GetKey(KeyCode.Joystick1Button9)){
                 //Switch camera and scene from title to cutting
+				cuttingLevel.SetActive(true);
 				this.GetComponent<CameraController> ().CameraStart (titleScreen.transform.Find("Main Camera").GetComponent<Camera>(), 
 					cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>());
 				currentLevel = levels.cutting;
@@ -71,6 +78,7 @@ public class GameManager : MonoBehaviour {
 				switchingLevels = true;
 				if (cuttingLevel.GetComponent<CuttingLevel> ().levelWon) {
                     //Switch camera and scene from cutting to sauteing
+					sauteingLevel.SetActive(true);
                     this.GetComponent<CameraController>().CameraStart(cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
                     sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>());
                     currentLevel = levels.sauteing;
@@ -78,6 +86,7 @@ public class GameManager : MonoBehaviour {
 					cuttingLevel.SetActive (false);
 				} else {
 					currentLevel = levels.gameOver;
+					gameOverLevel.SetActive (true);
 					this.GetComponent<CameraController> ().CameraStart (cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>(), 
 						gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
 					cuttingLevel.SetActive (false);
@@ -97,6 +106,7 @@ public class GameManager : MonoBehaviour {
                 if (cuttingLevel.GetComponent<SauteingLevel>().levelWon)
                 {
                     //Switch camera and scene from sauteing to grating
+					gratingLevel.SetActive(true);
                     this.GetComponent<CameraController>().CameraStart(sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
                     gratingLevel.transform.Find("Main Camera").GetComponent<Camera>());
                     currentLevel = levels.grating;
@@ -106,6 +116,7 @@ public class GameManager : MonoBehaviour {
                 else
                 {
                     currentLevel = levels.gameOver;
+					gameOverLevel.SetActive (true);
                     this.GetComponent<CameraController>().CameraStart(sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
                         gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
                     sauteingLevel.SetActive(false);
@@ -188,6 +199,7 @@ public class GameManager : MonoBehaviour {
     //Reset
     public void reset()
     {
+		SceneManager.LoadScene(1);
         gameTime = 180.0f;
         actualTime = gameTime;
         gameOver = false;

@@ -7,12 +7,12 @@ public class Player1 : MonoBehaviour {
 	public int score;
 
 	// Has 3 states: swatting, holding, and idle
-	enum states {swatting, holding, idle};
-	states currentState;
+	public enum states {swatting, holding, idle};
+	public states currentState;
 
 	// Player Action Control
-	float enemiesSwatting;
-	bool canSwat;
+	public float enemiesSwatting;
+	public bool canSwat;
 	public GameObject gameManager;
 
 	// Use this for initialization
@@ -39,33 +39,41 @@ public class Player1 : MonoBehaviour {
 
 		}
 		// Swatting a spider = +2; swatting mouse +3; swatting fly +1
-		if(states.holding == currentState || states.swatting == currentState){
+		if(states.holding == currentState){
 			canSwat = false;
 		}
 		else{
 			canSwat = true;
 			currentState = states.idle;
 		}
+			
+		if(gameManager.GetComponent<GameManager>().sauteingLevel.activeSelf){
+			// bounce code
+			float maxHeight = (7.0f / 2.0f) + 1.0f;
+			bool reachedMaxHeight = false;
+			float minHeight = (7.0f / 2.0f) - 1.0f;
+			bool reachedMinHeight = false;
+			if (currentState == states.holding) {
+				if (transform.position.y >= maxHeight && !reachedMaxHeight){
+					reachedMaxHeight = true;
+				}
+				if (transform.position.y <= minHeight && reachedMaxHeight) {
+					reachedMinHeight = true;
+				}
+				if (reachedMaxHeight && reachedMaxHeight) {
+					Debug.Log ("Reached both");
+				}
+			} else {
+				reachedMaxHeight = false;
+				reachedMinHeight = false;
+			}
+		}
 		// Swatting should have a CD
 
 	}
 
-	void OnTriggerEnter(Collider enemy){
-		if(enemy.tag == "Enemy"){
-			// Kill the enemy and add to score based on enemy type
-			if (Input.GetKey(KeyCode.Joystick1Button0) && enemiesSwatting < 1){
-				if(canSwat){
-					currentState = states.swatting;
-					enemy.gameObject.GetComponent<Enemy>().kill();
-					score += 3;
-				}
-			}
-
-		}
-	}
-
 	void OnTriggerStay(Collider col){
-		if (col.gameObject.tag == "knife") {
+		if (col.gameObject.tag == "knife" || col.gameObject.tag == "Pan") {
 			GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 			// ensure your not swatting or holding something else
 			if (currentState != states.swatting){
@@ -99,12 +107,25 @@ public class Player1 : MonoBehaviour {
 				}
 			}
 		}
+		if(col.gameObject.tag == "Enemy"){
+			// Kill the enemy and add to score based on enemy type
+			if (Input.GetKey(KeyCode.Joystick1Button0)){
+				if(currentState == states.idle){
+					col.gameObject.GetComponent<Enemy>().kill();
+					score += 3;
+				}
+			}
+
+		}
 
 
 	}
 
 	void OnTriggerExit(Collider col){
-		if (col.gameObject.tag == "Food" && col.gameObject.GetComponent<FoodClass>().collected) {
+		if (col.gameObject.tag == "Plate"){
+			currentState = states.idle;
+		}
+		if (col.gameObject.tag == "Enemy") {
 			currentState = states.idle;
 		}
 	}
