@@ -60,20 +60,27 @@ public class Player1 : MonoBehaviour {
 				if (transform.position.y <= minHeight && reachedMaxHeight) {
 					reachedMinHeight = true;
 				}
-				if (reachedMaxHeight && reachedMaxHeight) {
-					Debug.Log ("Reached both");
+				if (reachedMaxHeight && reachedMinHeight) {
+					gameManager.GetComponent<GameManager> ().sauteingLevel.GetComponent<SauteingLevel> ().completeBounce ();
+					reachedMaxHeight = false;
+					reachedMinHeight = false;
 				}
 			} else {
 				reachedMaxHeight = false;
 				reachedMinHeight = false;
 			}
 		}
+		if (gameManager.GetComponent<GameManager> ().gratingLevel.activeSelf) {
+			transform.position = new Vector3 (transform.position.x,transform.position.y,6.0f);
+			// Track starting x position
+		}
 		// Swatting should have a CD
 
 	}
 
 	void OnTriggerStay(Collider col){
-		if (col.gameObject.tag == "knife" || col.gameObject.tag == "Pan") {
+		if (col.gameObject.tag == "knife" || col.gameObject.tag == "Pan" || col.gameObject.tag =="Cheese" ||
+			col.gameObject.tag =="Grater") {
 			GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 			// ensure your not swatting or holding something else
 			if (currentState != states.swatting){

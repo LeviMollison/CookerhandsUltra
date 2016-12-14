@@ -27,7 +27,7 @@ public class SauteingLevel : MonoBehaviour {
 			levelWon = false;
 			levelOver = true;
 		}
-		if(bounces >= 10){
+		if(bounces >= 1){
 			levelWon = true;
 			levelOver = true;
 		}
@@ -35,6 +35,10 @@ public class SauteingLevel : MonoBehaviour {
 
 	public void stealFood(){
 		foodStolen++;
+	}
+
+	public void completeBounce(){
+		bounces++;
 	}
 
 	public bool levelComplete(){

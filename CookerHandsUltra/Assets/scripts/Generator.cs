@@ -63,7 +63,7 @@ public class Generator : MonoBehaviour {
                 else if(manager.GetComponent<GameManager>().getLevel() == -60.0f)
                 {
                     position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f, manager.GetComponent<GameManager>().getLevel() + 6.0f))
-                    , -2.4f, 0f);
+                    , -2.4f, 6f);
                     FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
                     //Counter for how long food remains in one location before "target" is set false
                     item.GetComponent<FoodClass>().delay = 1000f;

@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour {
             if (sauteingLevel.GetComponent<SauteingLevel>().levelComplete())
             {
                 switchingLevels = true;
-                if (cuttingLevel.GetComponent<SauteingLevel>().levelWon)
+				if (sauteingLevel.GetComponent<SauteingLevel>().levelWon)
                 {
                     //Switch camera and scene from sauteing to grating
 					gratingLevel.SetActive(true);

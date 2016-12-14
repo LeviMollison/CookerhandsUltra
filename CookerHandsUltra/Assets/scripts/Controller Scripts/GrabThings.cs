@@ -18,13 +18,11 @@ public class GrabThings : MonoBehaviour {
 		if (Input.GetKey(KeyCode.JoystickButton1)) {
 			if (!obj.grabbed) {
 				obj.toggleGrabbed (true, transform);
-				Debug.Log ("Being Grabbed");
 
 			} 
 		}
 		if(Input.GetKeyUp(KeyCode.JoystickButton1)){
 			obj.toggleGrabbed (false, transform);
-			Debug.Log ("Released");
 		}
 	}
 }
