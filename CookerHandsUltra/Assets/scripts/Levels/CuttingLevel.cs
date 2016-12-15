@@ -28,7 +28,7 @@ public class CuttingLevel : MonoBehaviour {
 			levelOver = true;
 		}
 //		if((float)foodCollected / (float)maxFood > 7.0/10.0){
-		if(true){
+		if(foodCollected >= 10){
 			levelWon = true;
 			levelOver = true;
 		}

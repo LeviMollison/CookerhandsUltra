@@ -4,9 +4,11 @@ using System.Collections;
 public class GratingLevel : MonoBehaviour {
 
 	public int grates;
+	public int foodCollected;
 	public int foodLost;
 	public int maxFood;
 	public int foodStolen;
+	public bool makeFood;
 	public GameObject cheese;
 	public GameObject grater;
 
@@ -18,6 +20,7 @@ public class GratingLevel : MonoBehaviour {
 	void Start () {
 		maxFood = 10;
 		foodStolen = 0;
+		foodCollected = 0;
 		levelWon = false;
 		levelOver = false;
 		grates = 0;
@@ -29,9 +32,15 @@ public class GratingLevel : MonoBehaviour {
 			levelWon = false;
 			levelOver = true;
 		}
-		if(grates >= 1){
+		if(grates >= 10){
 			levelWon = true;
 			levelOver = true;
+		}
+		if (grater.GetComponent<Grater> ().breakFood) {
+			makeFood = true;
+			grater.GetComponent<Grater> ().breakFood = false;
+		} else {
+			makeFood = false;
 		}
 		// Track when each player is holding a gratable object
 		// Grating Objects creates food
@@ -41,8 +50,13 @@ public class GratingLevel : MonoBehaviour {
 		foodStolen++;
 	}
 
-	public void completeGrate(){
+	public void collectFood(){
+		foodCollected++;
 		grates++;
+	}
+
+	public void completeGrate(){
+		foodCollected++;
 	}
 
 	public bool levelComplete(){

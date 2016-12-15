@@ -7,13 +7,15 @@ public class Player2 : MonoBehaviour {
 	public int score;
 
 	// Has 3 states: swatting, holding, and idle
-	enum states {swatting, holding, idle};
-	states currentState;
+	public enum states {swatting, holding, idle};
+	public states currentState;
 
 	// Player Action Control
-	float enemiesSwatting;
-	bool canSwat;
+	public float enemiesSwatting;
+	public bool canSwat;
 	public GameObject gameManager;
+	bool reachedMaxHeight = false;
+	bool reachedMinHeight = false;
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +25,7 @@ public class Player2 : MonoBehaviour {
 		canSwat = true;
 	}
 
-	
+
 	// Update is called once per frame
 	void Update () {
 
@@ -31,7 +33,7 @@ public class Player2 : MonoBehaviour {
 		if (transform.position.x > gameManager.GetComponent<GameManager>().getLevel()+7.0f){
 			transform.position = new Vector3 (gameManager.GetComponent<GameManager>().getLevel()+7.0f, 
 				transform.position.y, 0);
-			
+
 		}
 		if (transform.position.x < gameManager.GetComponent<GameManager>().getLevel()-7.0f){
 			transform.position = new Vector3 (gameManager.GetComponent<GameManager>().getLevel()-7.0f, 
@@ -39,33 +41,46 @@ public class Player2 : MonoBehaviour {
 
 		}
 		// Swatting a spider = +2; swatting mouse +3; swatting fly +1
-		if(states.holding == currentState || states.swatting == currentState){
+		if(states.holding == currentState){
 			canSwat = false;
 		}
 		else{
 			canSwat = true;
 			currentState = states.idle;
 		}
+
+		if(gameManager.GetComponent<GameManager>().sauteingLevel.activeSelf){
+			// bounce code
+			float maxHeight = 1.5f;
+			float minHeight = 0.5f;
+			if (currentState == states.holding) {
+				if (transform.position.y >= maxHeight && !reachedMaxHeight){
+					reachedMaxHeight = true;
+				}
+				if (transform.position.y <= minHeight && reachedMaxHeight) {
+					reachedMinHeight = true;
+				}
+				if (reachedMaxHeight && reachedMinHeight) {
+					gameManager.GetComponent<GameManager> ().sauteingLevel.GetComponent<SauteingLevel> ().completeBounce ();
+					reachedMaxHeight = false;
+					reachedMinHeight = false;
+				}
+			} else {
+				reachedMaxHeight = false;
+				reachedMinHeight = false;
+			}
+		}
+		if (gameManager.GetComponent<GameManager> ().gratingLevel.activeSelf) {
+			transform.position = new Vector3 (transform.position.x,transform.position.y,11.0f);
+			// Track starting x position
+		}
 		// Swatting should have a CD
 
 	}
 
-	void OnTriggerEnter(Collider enemy){
-		if(enemy.tag == "Enemy"){
-			// Kill the enemy and add to score based on enemy type
-			if (Input.GetKey(KeyCode.Joystick2Button0) && enemiesSwatting < 1){
-				if(canSwat){
-					currentState = states.swatting;
-					enemy.gameObject.GetComponent<Enemy>().kill();
-					score += 3;
-				}
-			}
-
-		}
-	}
-
 	void OnTriggerStay(Collider col){
-		if (col.gameObject.tag == "knife") {
+		if (col.gameObject.tag == "knife" || col.gameObject.tag == "Pan" || col.gameObject.tag =="Cheese" ||
+			col.gameObject.tag =="Grater") {
 			GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 			// ensure your not swatting or holding something else
 			if (currentState != states.swatting){
@@ -81,12 +96,13 @@ public class Player2 : MonoBehaviour {
 				}	
 			}
 		}
+		else
 		if (col.gameObject.tag == "Food") {
 			if (col.gameObject.GetComponent<FoodClass> ().cut) {
 				GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 				// ensure your not swatting or holding something else
 				if (currentState != states.swatting){
-					if (Input.GetKey(KeyCode.Joystick2Button1)) {
+						if (Input.GetKey(KeyCode.Joystick2Button1) && col.gameObject.GetComponent<FoodClass>().transform.parent == null) {
 						if (!obj.grabbed && currentState != states.holding) {
 							obj.toggleGrabbed (true, transform);
 							currentState = states.holding;
@@ -99,12 +115,26 @@ public class Player2 : MonoBehaviour {
 				}
 			}
 		}
+		else
+		if(col.gameObject.tag == "Enemy"){
+			// Kill the enemy and add to score based on enemy type
+			if (Input.GetKey(KeyCode.Joystick2Button0)){
+				if(currentState == states.idle){
+					col.gameObject.GetComponent<Enemy>().kill();
+					score += 3;
+				}
+			}
+
+		}
 
 
 	}
 
 	void OnTriggerExit(Collider col){
-		if (col.gameObject.tag == "Food" && col.gameObject.GetComponent<FoodClass>().collected) {
+		if (col.gameObject.tag == "Plate"){
+			currentState = states.idle;
+		}
+		if (col.gameObject.tag == "Enemy") {
 			currentState = states.idle;
 		}
 	}

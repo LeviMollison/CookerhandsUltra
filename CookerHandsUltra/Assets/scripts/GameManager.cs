@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
     public GameObject cuttingLevel;
     public GameObject sauteingLevel;
     public GameObject gratingLevel;
+	public GameObject plane;
 
     //Generates the food, spiders, flies, mice
     public GameObject generator;
@@ -45,6 +46,8 @@ public class GameManager : MonoBehaviour {
 		sauteingLevel.SetActive (false);
 		gratingLevel.SetActive (false);
 
+		Physics.IgnoreCollision(playerOne.GetComponent<Collider>(), playerTwo.GetComponent<Collider>());
+
 		// SceneManager.LoadScene(0);
 	}
 	
@@ -63,7 +66,7 @@ public class GameManager : MonoBehaviour {
 		// If the game's not over, check what level your on and track the state of that level
 		if (currentLevel == levels.titleScreen){
 			// SceneManager.LoadScene(1); currentLevel = levels.cutting;
-			if (Input.GetKey(KeyCode.Joystick1Button9)){
+			if (Input.GetKey(KeyCode.Joystick1Button9) || Input.GetKey(KeyCode.Joystick2Button9)){
                 //Switch camera and scene from title to cutting
 				cuttingLevel.SetActive(true);
 				this.GetComponent<CameraController> ().CameraStart (titleScreen.transform.Find("Main Camera").GetComponent<Camera>(), 
@@ -131,19 +134,30 @@ public class GameManager : MonoBehaviour {
         }
 		if (currentLevel == levels.grating) {
             // is the level over
+			plane.SetActive(false);
             if (gratingLevel.GetComponent<GratingLevel>().levelComplete())
             {
-                //Switch camera and scene from grating to gameOver
-                //this.GetComponent<CameraController>().CameraStart(gratingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
-                //    gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
-       
-                //currentLevel = levels.gameOver;
-
-                //gratingLevel.SetActive(false);
-                
+				if (gratingLevel.GetComponent<GratingLevel>().levelWon)
+				{
+					//Switch camera and scene from sauteing to grating
+					gameOverLevel.SetActive(true);
+					this.GetComponent<CameraController>().CameraStart(gratingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
+						 gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
+					currentLevel = levels.gameOver;
+					gratingLevel.SetActive(false);
+				}
+				else
+				{
+					currentLevel = levels.gameOver;
+					gameOverLevel.SetActive (true);
+					this.GetComponent<CameraController>().CameraStart(gratingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
+						gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
+					sauteingLevel.SetActive(false);
+				}
             }
         }
 		if (currentLevel == levels.gameOver) {
+			plane.SetActive (false);
 			if(Input.GetKey(KeyCode.JoystickButton9)){
 				SceneManager.LoadScene(0);
 			}
@@ -180,11 +194,17 @@ public class GameManager : MonoBehaviour {
 		if (currentLevel == levels.sauteing) {
 			sauteingLevel.GetComponent<SauteingLevel> ().stealFood ();
 		}
+		if (currentLevel == levels.grating) {
+			gratingLevel.GetComponent<GratingLevel> ().stealFood ();
+		}
 	}
 
 	public void collectFoodInLevel(){
 		if (currentLevel == levels.cutting) {
 			cuttingLevel.GetComponent<CuttingLevel> ().collectFood ();
+		}
+		if (currentLevel == levels.grating) {
+			gratingLevel.GetComponent<GratingLevel> ().collectFood ();
 		}
 	}
 

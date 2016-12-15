@@ -28,7 +28,7 @@ public class FoodClass : MonoBehaviour {
 
         if(transform.parent == null && transform.position.y > -2.4f)
         {
-//            Debug.Log("No Parent and Above Table");
+			
         }
 
         if (transform.position.y == -2.4f)
@@ -47,12 +47,28 @@ public class FoodClass : MonoBehaviour {
             collectable = true;
         }
 	}
+
+	void OnTriggerStay(Collider other){
+		if (other.gameObject.tag == "ground") {
+			this.GetComponent<Rigidbody> ().useGravity = false;
+			this.GetComponent<Rigidbody>().isKinematic = true;
+		}
+	}
+
+	void OnTriggerExit(Collider other){
+		if(other.gameObject.tag=="ground" && transform.parent == null) {
+			this.GetComponent<Rigidbody> ().useGravity = true;
+			this.GetComponent<Rigidbody>().isKinematic = false;
+		}
+	}
     
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy")
         {
             this.transform.parent = other.transform;
+			this.GetComponent<Rigidbody> ().useGravity = false;
+			this.GetComponent<Rigidbody>().isKinematic = true;
             taken = true;
         }
 		if (other.gameObject.tag == "Plate") {

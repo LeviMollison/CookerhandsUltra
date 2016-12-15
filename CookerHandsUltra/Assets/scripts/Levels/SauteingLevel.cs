@@ -27,7 +27,7 @@ public class SauteingLevel : MonoBehaviour {
 			levelWon = false;
 			levelOver = true;
 		}
-		if(bounces >= 1){
+		if(bounces >= 10){
 			levelWon = true;
 			levelOver = true;
 		}

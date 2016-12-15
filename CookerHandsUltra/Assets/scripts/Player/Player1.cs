@@ -14,6 +14,8 @@ public class Player1 : MonoBehaviour {
 	public float enemiesSwatting;
 	public bool canSwat;
 	public GameObject gameManager;
+	bool reachedMaxHeight = false;
+	bool reachedMinHeight = false;
 
 	// Use this for initialization
 	void Start () {
@@ -49,17 +51,17 @@ public class Player1 : MonoBehaviour {
 			
 		if(gameManager.GetComponent<GameManager>().sauteingLevel.activeSelf){
 			// bounce code
-			float maxHeight = (7.0f / 2.0f) + 1.0f;
-			bool reachedMaxHeight = false;
-			float minHeight = (7.0f / 2.0f) - 1.0f;
-			bool reachedMinHeight = false;
+			float maxHeight = 1.5f;
+			float minHeight = 0.5f;
 			if (currentState == states.holding) {
 				if (transform.position.y >= maxHeight && !reachedMaxHeight){
 					reachedMaxHeight = true;
 				}
+				Debug.Log ("maxHeight" + reachedMaxHeight);
 				if (transform.position.y <= minHeight && reachedMaxHeight) {
 					reachedMinHeight = true;
 				}
+				Debug.Log ("minHeight" + reachedMinHeight);
 				if (reachedMaxHeight && reachedMinHeight) {
 					gameManager.GetComponent<GameManager> ().sauteingLevel.GetComponent<SauteingLevel> ().completeBounce ();
 					reachedMaxHeight = false;
@@ -71,7 +73,7 @@ public class Player1 : MonoBehaviour {
 			}
 		}
 		if (gameManager.GetComponent<GameManager> ().gratingLevel.activeSelf) {
-			transform.position = new Vector3 (transform.position.x,transform.position.y,6.0f);
+			transform.position = new Vector3 (transform.position.x,transform.position.y,11.0f);
 			// Track starting x position
 		}
 		// Swatting should have a CD
@@ -89,19 +91,19 @@ public class Player1 : MonoBehaviour {
 						obj.toggleGrabbed (true, transform);
 						currentState = states.holding;
 					} 
-				}
-				if(Input.GetKeyUp(KeyCode.Joystick1Button1)){
+				}else if(Input.GetKeyUp(KeyCode.Joystick1Button1)){
 					obj.toggleGrabbed (false, transform);
 					currentState = states.idle;
 				}	
 			}
 		}
+		else
 		if (col.gameObject.tag == "Food") {
 			if (col.gameObject.GetComponent<FoodClass> ().cut) {
 				GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 				// ensure your not swatting or holding something else
 				if (currentState != states.swatting){
-					if (Input.GetKey(KeyCode.Joystick1Button1)) {
+						if (Input.GetKey(KeyCode.Joystick1Button1) && col.gameObject.GetComponent<FoodClass>().transform.parent == null) {
 						if (!obj.grabbed && currentState != states.holding) {
 							obj.toggleGrabbed (true, transform);
 							currentState = states.holding;
@@ -114,6 +116,7 @@ public class Player1 : MonoBehaviour {
 				}
 			}
 		}
+		else
 		if(col.gameObject.tag == "Enemy"){
 			// Kill the enemy and add to score based on enemy type
 			if (Input.GetKey(KeyCode.Joystick1Button0)){

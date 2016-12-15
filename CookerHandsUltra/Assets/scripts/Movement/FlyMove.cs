@@ -40,7 +40,7 @@ public class FlyMove : MonoBehaviour {
     {
         if (other.gameObject.tag == "Food")
         {
-            Debug.Log("colliding with food");
+      
             food = true;
         }
     }
