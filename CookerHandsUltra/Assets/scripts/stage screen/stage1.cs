@@ -41,13 +41,6 @@ public class stage1 : MonoBehaviour {
             }
 
         }
-        else if (currentRoom == "entry")
-        {
-
-            myText = "How To Win:\n\n";
-            myText += "To pass the health inspector's test, you must cook a dish in the given 3 minutes and failure to do so will result in a shutdown.\nSo, we need you to be the best you can be and make sure you don't cause a mess with all the food you are cooking. \nNow Get in the Kitchen and Good Luck.\n\n";
-            myText += "Press X to Start";
-        }
 
         GetComponent<Text>().text = myText;
     }
