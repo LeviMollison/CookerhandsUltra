@@ -26,13 +26,17 @@ public class FlyMove : MonoBehaviour {
 
             //move our enemy in the direction of the player
             transform.position += direction.normalized * Time.deltaTime * speed;
+			this.GetComponent<SpriteRenderer> ().transform.rotation = new Quaternion (
+				this.GetComponent<SpriteRenderer> ().transform.rotation.x, -1.0f,0,0);
 
         }
         else
         {
             Vector3 direction = border - transform.position;
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), .2f);
+			transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), .2f);
             transform.position += direction.normalized * 2 * speed * Time.deltaTime;
+			this.GetComponent<SpriteRenderer> ().transform.rotation = new Quaternion (
+				this.GetComponent<SpriteRenderer> ().transform.rotation.x, -1.0f,0,0);
         }
     }
 

@@ -46,16 +46,14 @@ public class Generator : MonoBehaviour {
                     //Counter for how long food remains in one location before "target" is set false
                     item.GetComponent<FoodClass>().delay = 1000f;
                     food.Add(item);
-                    Debug.Log("Generate Spider Food");
                 }
                 //Sauteing Level
                 else if(manager.GetComponent<GameManager>().getLevel() == 0.0f)
                 {
-					position = new Vector3(manager.GetComponent<GameManager>().pan.transform.position.x,
-						manager.GetComponent<GameManager>().pan.transform.position.y+1.0f, 0);
+					position = new Vector3(Mathf.Round(Random.Range(manager.GetComponent<GameManager>().getLevel() - 6.0f,
+						manager.GetComponent<GameManager>().getLevel() + 6.0f))
+						, -2.4f, 0);
                     FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
-					item.GetComponent<Rigidbody> ().useGravity = false;
-					item.GetComponent<Rigidbody> ().isKinematic = true;
                     //Counter for how long food remains in one location before "target" is set false
                     item.GetComponent<FoodClass>().delay = 10f;
                     food.Add(item);
@@ -70,8 +68,6 @@ public class Generator : MonoBehaviour {
 					position = new Vector3(manager.GetComponent<GameManager>().playerOne.transform.position.x, 
 						manager.GetComponent<GameManager>().playerOne.transform.position.y, 11f);
 					FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
-					item.GetComponent<Rigidbody> ().useGravity = false;
-					item.GetComponent<Rigidbody> ().isKinematic = true;
 					//Counter for how long food remains in one location before "target" is set false
 					item.cut = true;
 					item.GetComponent<FoodClass>().delay = 1000f;
@@ -127,6 +123,9 @@ public class Generator : MonoBehaviour {
 
 				for (int i = 0; i < spiders.Count; i++)
 				{
+					if (spiders [i] == null) {
+						spiders.RemoveAt (i);
+					}
 					if (spiders [i] != null) {
 						//Delete if spider has no target
 						if (spiders [i].target == null) {
@@ -170,6 +169,9 @@ public class Generator : MonoBehaviour {
 
                     for (int i = 0; i < flies.Count; i++)
                     {
+					if (flies [i] == null) {
+						flies.RemoveAt (i);
+					}
 					if (flies [i] != null) {
 						//Delete if fly has no target
 						if (flies [i].target == null) {
@@ -237,6 +239,9 @@ public class Generator : MonoBehaviour {
 
 				for (int i = 0; i < mice.Count; i++)
 				{
+					if (mice [i] == null) {
+						mice.RemoveAt (i);
+					}
 					if (mice [i] != null) {
 						//Delete mouse if has no target
 						if (mice [i].target == null) {

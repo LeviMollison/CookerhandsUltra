@@ -1,9 +1,23 @@
 fileFormatVersion: 2
 guid: 539a8a6447a71436381c5e98f2f2bfea
-timeCreated: 1480621463
+timeCreated: 1482000007
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: right hand_0
+    21300002: right hand_1
+    21300004: right hand_2
+    21300006: right hand_3
+    21300008: right hand_4
+    21300010: right hand_5
+    21300012: right hand_6
+    21300014: right hand_7
+    21300016: right hand_8
+    21300018: right hand_9
+    21300020: right hand_10
+    21300022: right hand_11
+    21300024: right hand_12
+    21300026: right hand_13
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -51,7 +65,189 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: right hand_0
+      rect:
+        serializedVersion: 2
+        x: 686
+        y: 1029
+        width: 74
+        height: 120
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_1
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 1034
+        width: 87
+        height: 121
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_2
+      rect:
+        serializedVersion: 2
+        x: 861
+        y: 1018
+        width: 114
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_3
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 901
+        width: 144
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_4
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 287
+        width: 98
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_5
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 287
+        width: 111
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_6
+      rect:
+        serializedVersion: 2
+        x: 463
+        y: 298
+        width: 142
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_7
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 300
+        width: 107
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_8
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 134
+        width: 96
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_9
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 132
+        width: 122
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_10
+      rect:
+        serializedVersion: 2
+        x: 254
+        y: 137
+        width: 133
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_11
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 134
+        width: 102
+        height: 70
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_12
+      rect:
+        serializedVersion: 2
+        x: 509
+        y: 141
+        width: 123
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: right hand_13
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 158
+        width: 157
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 

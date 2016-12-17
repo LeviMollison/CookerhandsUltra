@@ -10,6 +10,11 @@ public class Player1 : MonoBehaviour {
 	public enum states {swatting, holding, idle};
 	public states currentState;
 
+	// animation states
+	public GameObject swatting;
+	public GameObject holding;
+	public GameObject idle;
+
 	// Player Action Control
 	public float enemiesSwatting;
 	public bool canSwat;
@@ -28,6 +33,44 @@ public class Player1 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		// animations
+		if(currentState == states.swatting){
+			if (idle.activeSelf) {
+				idle.SetActive (false);
+			}
+			if (holding.activeSelf) {
+				holding.SetActive (false);
+			}
+			if (!swatting.activeSelf) {
+				swatting.SetActive (true);
+			}
+		}
+		else if (currentState == states.holding){
+			if (idle.activeSelf) {
+				idle.SetActive (false);
+			}
+			if (swatting.activeSelf) {
+				swatting.SetActive (false);
+			}
+			if (!holding.activeSelf) {
+				holding.SetActive (true);
+			}
+		}
+		else if (currentState == states.idle){
+			if (holding.activeSelf) {
+				holding.SetActive (false);
+			}
+			if (swatting.activeSelf) {
+				swatting.SetActive (false);
+			}
+			if (!idle.activeSelf) {
+				idle.SetActive (true);
+			}
+		}
+		idle.transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+		holding.transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
+		swatting.transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 
 		// out of bounds
 		if (transform.position.x > gameManager.GetComponent<GameManager>().getLevel()+7.0f){

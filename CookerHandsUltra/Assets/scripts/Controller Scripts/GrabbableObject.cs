@@ -14,7 +14,7 @@ public class GrabbableObject : MonoBehaviour {
 	void Update () {
 		if (grabbed) {
 			// move connected to player
-			transform.position = new Vector3 (hand.position.x-1.0f, hand.position.y, hand.position.z);
+			transform.position = new Vector3 (hand.position.x-0.5f, hand.position.y, hand.position.z);
 		} else {
 			transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z);
 		}
