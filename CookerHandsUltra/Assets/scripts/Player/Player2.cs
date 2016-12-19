@@ -30,7 +30,6 @@ public class Player2 : MonoBehaviour {
 		canSwat = true;
 	}
 
-
 	// Update is called once per frame
 	void Update () {
 

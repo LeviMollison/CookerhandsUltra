@@ -25,6 +25,13 @@ public class GameManager : MonoBehaviour {
 	public GameObject A;
 	public GameObject pan;
 
+	// Sound Playing
+	public AudioClip plateCollectSound;
+	public AudioClip spiderSound;
+	public AudioClip gameOverSound;
+	public AudioSource audioPlayer;
+	public AudioSource levelSoundEffects;
+
     //Generates the food, spiders, flies, mice
     public GameObject generator;
 
@@ -59,6 +66,11 @@ public class GameManager : MonoBehaviour {
 		if (currentLevel != levels.titleScreen && currentLevel != levels.gameOver) {
 			actualTime -= Time.deltaTime;
 			// If the time hit 0 you lose
+//			if(actualTime <= 0){
+//				currentLevel = levels.gameOver;
+//				gameWon = false;
+//				gameOver = true;
+//			}
 		}
 		// Do a reset if the game's over back to main title screen
 		// If the game's not over, check what level your on and track the state of that level
@@ -74,14 +86,28 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		if (currentLevel == levels.cutting) {
+			// Play spider sound
+			if(generator.GetComponent<Generator>().spiders.Count > 0){
+				if (!levelSoundEffects.isPlaying) {
+					Debug.Log ("Reaching Here");
+					levelSoundEffects.volume = 0.8f;
+					levelSoundEffects.clip = spiderSound;
+					levelSoundEffects.Play ();
+				}
+			}
 			// If the game is over stop everything
-			if (actualTime == 0 && !gameOver){
+			if (actualTime <= 0 && !gameOver){
 				cuttingLevel.SetActive (false);
 				this.GetComponent<CameraController> ().CameraStart (cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>(), 
 					gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
 				gameOverLevel.SetActive (true);
 				gameOver = true;
 				gameWon = false;
+				if (levelSoundEffects.isPlaying) {
+					levelSoundEffects.Stop ();
+				}
+				levelSoundEffects.clip = gameOverSound;
+				levelSoundEffects.Play ();
 			}
 			else if (cuttingLevel.GetComponent<CuttingLevel>().levelComplete()){
 				switchingLevels = true;
@@ -102,6 +128,11 @@ public class GameManager : MonoBehaviour {
 						gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
 					cuttingLevel.SetActive (false);
 					switchingLevels = false;
+					if (levelSoundEffects.isPlaying) {
+						levelSoundEffects.Stop ();
+					}
+					levelSoundEffects.clip = gameOverSound;
+					levelSoundEffects.Play ();
 				}
 			}
 			if (switchingLevels){
@@ -111,14 +142,20 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		if (currentLevel == levels.sauteing) {
+
             // did you run out of time
-			if (actualTime == 0 && !gameOver){
+			if (actualTime <= 0 && !gameOver){
 				sauteingLevel.SetActive (false);
 				this.GetComponent<CameraController> ().CameraStart (sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(), 
 					gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
 				gameOverLevel.SetActive (true);
 				gameOver = true;
 				gameWon = false;
+				if (levelSoundEffects.isPlaying) {
+					levelSoundEffects.Stop ();
+				}
+				levelSoundEffects.clip = gameOverSound;
+				levelSoundEffects.Play ();
 			}
             else if (sauteingLevel.GetComponent<SauteingLevel>().levelComplete())
             {
@@ -142,6 +179,11 @@ public class GameManager : MonoBehaviour {
                     sauteingLevel.SetActive(false);
 					gameOver = true;
 					gameWon = false;
+					if (levelSoundEffects.isPlaying) {
+						levelSoundEffects.Stop ();
+					}
+					levelSoundEffects.clip = gameOverSound;
+					levelSoundEffects.Play ();
 					switchingLevels = false;
                 }
             }
@@ -155,13 +197,18 @@ public class GameManager : MonoBehaviour {
 		if (currentLevel == levels.grating) {
             // is the level over
 			plane.SetActive(false);
-			if (actualTime == 0 && !gameOver){
+			if (actualTime <= 0 && !gameOver){
 				gratingLevel.SetActive (false);
 				this.GetComponent<CameraController> ().CameraStart (gratingLevel.transform.Find("Main Camera").GetComponent<Camera>(), 
 					gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
 				gameOverLevel.SetActive (true);
 				gameOver = true;
 				gameWon = false;
+				if (levelSoundEffects.isPlaying) {
+					levelSoundEffects.Stop ();
+				}
+				levelSoundEffects.clip = gameOverSound;
+				levelSoundEffects.Play ();
 			}
             else if (gratingLevel.GetComponent<GratingLevel>().levelComplete())
             {
@@ -183,6 +230,11 @@ public class GameManager : MonoBehaviour {
 					sauteingLevel.SetActive(false);
 					gameOver = true;
 					gameWon = false;
+					if (levelSoundEffects.isPlaying) {
+						levelSoundEffects.Stop ();
+					}
+					levelSoundEffects.clip = gameOverSound;
+					levelSoundEffects.Play ();
 					switchingLevels = false;
 				}
             }
@@ -242,6 +294,12 @@ public class GameManager : MonoBehaviour {
 	public void collectFoodInLevel(){
 		if (currentLevel == levels.cutting) {
 			cuttingLevel.GetComponent<CuttingLevel> ().collectFood ();
+			if (audioPlayer.isPlaying) {
+				audioPlayer.Stop ();
+			}
+			audioPlayer.volume = 0.7f;
+			audioPlayer.clip = plateCollectSound;
+			audioPlayer.Play ();
 		}
 		if (currentLevel == levels.grating) {
 			gratingLevel.GetComponent<GratingLevel> ().collectFood ();
