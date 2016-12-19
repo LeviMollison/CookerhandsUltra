@@ -21,7 +21,7 @@ public class FoodClass : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (transform.position.y > 7f)
+		if (transform.position.y > 7f || (taken && transform.parent == null))
         {
             gone = true;
         }
@@ -56,11 +56,13 @@ public class FoodClass : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
 		
-        if (other.gameObject.tag == "Enemy")
-        {
-            this.transform.parent = other.transform;
-            taken = true;
-        }
+//        if (other.gameObject.tag == "Enemy")
+//        {
+//			if (this.transform.parent == null) {
+//				this.transform.parent = other.transform;
+//				taken = true;
+//			}
+//        }
 		if (other.gameObject.tag == "Plate") {
 			gone = true;
 			collected = true;

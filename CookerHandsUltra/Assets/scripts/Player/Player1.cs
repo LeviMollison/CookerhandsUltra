@@ -81,6 +81,14 @@ public class Player1 : MonoBehaviour {
 				transform.position.y, 0);
 
 		}
+		if (transform.position.y < -3.5f){
+			transform.position = new Vector3 (transform.position.x, -3.5f, 0f);
+
+		}
+		if (transform.position.y > 6.0f){
+			transform.position = new Vector3 (transform.position.x, 6.0f, 0f);
+
+		}
 		// Swatting a spider = +2; swatting mouse +3; swatting fly +1
 		if(states.holding == currentState){
 			canSwat = false;

@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "5.01/OSX64" 1482150323
+<REAPER_PROJECT 0.1 "5.01/OSX64" 1482151076
   RIPPLE 0
   GROUPOVERRIDE 0 0 0
   AUTOXFADE 1
@@ -26,7 +26,7 @@
   >
   <APPLYFX_CFG
   >
-  RENDER_FILE "/Users/Akira/Documents/Senior Year Fall 2016/Intro to Game Dev/Cookerhands Ultra/CookerHandsUltra/Assets/Sounds/food_sizzling.wav"
+  RENDER_FILE "/Users/Akira/Documents/Senior Year Fall 2016/Intro to Game Dev/Cookerhands Ultra/CookerHandsUltra/Assets/Sounds/fly_buzz_sound.wav"
   RENDER_FMT 0 2 44100
   RENDER_1X 0
   RENDER_RANGE 1 0 0.8
@@ -82,8 +82,8 @@
   >
   <PROJBAY
   >
-  <TRACK {F8ABEBAB-9E6E-3544-BC7E-C6C3A377DFA7}
-    NAME fly_buzzing_around
+  <TRACK {F40A05ED-46F8-204E-883C-6A7BE577238B}
+    NAME 116780__domrodrig__scraping-a-grate-surprise
     PEAKCOL 16576
     BEAT -1
     AUTOMODE 0
@@ -101,30 +101,30 @@
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
-    TRACKID {F8ABEBAB-9E6E-3544-BC7E-C6C3A377DFA7}
+    TRACKID {F40A05ED-46F8-204E-883C-6A7BE577238B}
     PERF 0
     MIDIOUT -1
     MAINSEND 1 0
     <ITEM
       POSITION 0
       SNAPOFFS 0
-      LENGTH 2.5
+      LENGTH 1
       LOOP 1
       ALLTAKES 0
       FADEIN 1 0.01 0 1 0 0
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 1
-      IGUID {AD1BA262-9E38-8149-96EB-C621CC1D5E1B}
-      IID 7
-      NAME fly_buzzing_around.wav
+      IGUID {74085538-CCE5-544D-AC34-000A62A9A519}
+      IID 8
+      NAME 116780__domrodrig__scraping-a-grate-surprise.wav
       VOLPAN 1 0 1 -1
-      SOFFS 1
+      SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {3DC646D5-09A8-1648-AC85-3D0EB4E31C4C}
+      GUID {8EECD25C-C90F-654A-9613-69A209E15AD0}
       <SOURCE WAVE
-        FILE "fly_buzzing_around.wav"
+        FILE "116780__domrodrig__scraping-a-grate-surprise.wav"
       >
     >
   >

@@ -45,7 +45,12 @@ public class FlyMove : MonoBehaviour {
         if (other.gameObject.tag == "Food")
         {
       
-            food = true;
+			// Check if the food was obtained already
+			if ((other.gameObject.GetComponent<FoodClass>().transform.parent == null && !this.food)){
+				this.food = true;	
+				other.gameObject.GetComponent<FoodClass>().transform.parent = this.transform;
+				other.gameObject.GetComponent<FoodClass>().taken = true;
+			}
         }
     }
 }

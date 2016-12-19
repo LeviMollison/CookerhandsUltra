@@ -123,6 +123,7 @@ public class Generator : MonoBehaviour {
 
 				for (int i = 0; i < spiders.Count; i++)
 				{
+
 					if (spiders [i] == null) {
 						spiders.RemoveAt (i);
 					}
@@ -131,6 +132,16 @@ public class Generator : MonoBehaviour {
 						if (spiders [i].target == null) {
 							Destroy (spiders [i].gameObject);
 							spiders.RemoveAt (i);
+						}
+						// check if the spider's target has a parent that isn't this one
+						else if (spiders[i].target.taken && spiders[i].target.transform.parent != spiders[i].transform){
+							// go through the food array and find a new target
+							for (int k = 0; k < food.Count; k++){
+								if (!food [k].taken) {
+									spiders [i].target = food [k];
+									break;
+								}
+							}
 						}
                     //Delete spider if dead
 					else if (spiders [i].dead) {
@@ -178,12 +189,23 @@ public class Generator : MonoBehaviour {
 							Destroy (flies [i].gameObject);
 							flies.RemoveAt (i);
 						}
+						// check if the fly's target has a parent that isn't this one
+						else if (flies[i].target.taken && flies[i].target.transform.parent != flies[i].transform){
+							// go through the food array and find a new target
+							for (int k = 0; k < food.Count; k++){
+								if (!food [k].taken) {
+									flies [i].target = food [k];
+									break;
+								}
+							}
+						}
                         //Delete if fly is dead
                         else if (flies [i].dead) {
 							flies [i].target.transform.parent = null;
 							flies [i].target.targeted = false;
 							flies.RemoveAt (i);
 						} else if (flies [i].transform.position.y > 7f && flies [i].target != null) {
+							Debug.Log ("Running This");
 							flies [i].target.transform.parent = null;
 							Destroy (flies [i].gameObject);
 							flies.RemoveAt (i);
@@ -246,6 +268,16 @@ public class Generator : MonoBehaviour {
 						if (mice [i].target == null) {
 							Destroy (mice [i].gameObject);
 							mice.RemoveAt (i);
+						}
+						// check if the spider's target has a parent that isn't this one
+						else if (mice[i].target.taken && mice[i].target.transform.parent != mice[i].transform){
+							// go through the food array and find a new target
+							for (int k = 0; k < food.Count; k++){
+								if (!food [k].taken) {
+									mice [i].target = food [k];
+									break;
+								}
+							}
 						}
                     //Delete mouse if dead
                     else if (mice [i].dead) {
