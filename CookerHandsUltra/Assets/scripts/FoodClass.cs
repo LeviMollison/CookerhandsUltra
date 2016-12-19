@@ -11,6 +11,7 @@ public class FoodClass : MonoBehaviour {
     public bool cut = false;
     public bool collectable = false;
 	public bool collected = false;
+	public GameObject manager;
 
 
 	// Use this for initialization
@@ -20,11 +21,15 @@ public class FoodClass : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (transform.position.y > 7f)
+		if (transform.position.y > 7f)
         {
-            Debug.Log("Food Gone");
             gone = true;
         }
+		if (manager.GetComponent<GameManager> ().getLevel () == -60.0f) {
+			if (transform.parent == null) {
+				gone = true;
+			}
+		}
 
         if(transform.parent == null && transform.position.y > -2.4f)
         {

@@ -55,7 +55,7 @@ public class Generator : MonoBehaviour {
 						, -2.4f, 0);
                     FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
                     //Counter for how long food remains in one location before "target" is set false
-                    item.GetComponent<FoodClass>().delay = 10f;
+                    item.GetComponent<FoodClass>().delay = 1000f;
                     food.Add(item);
                    
                 }
@@ -69,10 +69,8 @@ public class Generator : MonoBehaviour {
 						manager.GetComponent<GameManager>().playerOne.transform.position.y, 11f);
 					FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
 					//Counter for how long food remains in one location before "target" is set false
-					item.cut = true;
 					item.GetComponent<FoodClass>().delay = 1000f;
 					food.Add(item);
-					Debug.Log("Generate Mouse Food");
 					manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().makeFood = false;
 
 				}
@@ -84,9 +82,11 @@ public class Generator : MonoBehaviour {
                 {
                     if (food[i].gone && food[i].transform.parent == null)
                     {
+						Debug.Log ("Food's gone");
                         if (food[i].collected)
                         {
                             manager.GetComponent<GameManager>().collectFoodInLevel();
+
                         }
                         else
                         {
@@ -159,7 +159,7 @@ public class Generator : MonoBehaviour {
 					{
 		
                         //Instantiate Fly with random position of x and target
-						position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel() - 7.0f, manager.GetComponent<GameManager>().getLevel() + 7.0f), 8f, 0);
+						position = new Vector3(Random.Range(manager.GetComponent<GameManager>().getLevel() - 7.0f, manager.GetComponent<GameManager>().getLevel() + 7.0f), 6.5f, 0);
 						FlyMove item = (FlyMove)Instantiate(fly, position, transform.rotation);
 						item.target = food[i];
 						food[i].targeted = true;
@@ -183,7 +183,7 @@ public class Generator : MonoBehaviour {
 							flies [i].target.transform.parent = null;
 							flies [i].target.targeted = false;
 							flies.RemoveAt (i);
-						} else if (flies [i].transform.position.y > 8f && flies [i].target != null) {
+						} else if (flies [i].transform.position.y > 7f && flies [i].target != null) {
 							flies [i].target.transform.parent = null;
 							Destroy (flies [i].gameObject);
 							flies.RemoveAt (i);
@@ -205,7 +205,6 @@ public class Generator : MonoBehaviour {
 					delay = Mathf.Round(Random.Range(0f, 10f));
 						if (!food[i].targeted)
 						{
-							Debug.Log("Generate Mouse");
 							if(Mathf.Round(Random.Range(0f, 10f))/2 == 0)
 							{
 							position = new Vector3(manager.GetComponent<GameManager>().getLevel() - 7.0f, 
@@ -253,8 +252,9 @@ public class Generator : MonoBehaviour {
 							mice [i].target.transform.parent = null;
 							mice [i].target.targeted = false;
 							mice.RemoveAt (i);
-						} else if (mice [i].transform.position.x > 9f && mice [i].target != null) {
+						} else if (mice [i].transform.position.x > -47f && mice [i].target != null) {
 							mice [i].target.transform.parent = null;
+							manager.GetComponent<GameManager>().stealFoodInLevel();
 							Destroy (mice [i].gameObject);
 							mice.RemoveAt (i);
 						}

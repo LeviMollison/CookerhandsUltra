@@ -35,7 +35,6 @@ public class MouseMove : MonoBehaviour {
     {
         if (other.gameObject.tag == "Food")
         {
-            Debug.Log("colliding with food");
             this.food = true;
         }
     }

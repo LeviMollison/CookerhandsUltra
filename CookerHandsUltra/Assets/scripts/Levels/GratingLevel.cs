@@ -11,6 +11,10 @@ public class GratingLevel : MonoBehaviour {
 	public bool makeFood;
 	public GameObject cheese;
 	public GameObject grater;
+	public GameObject circle;
+
+	// New Level
+	public int circleSize;
 
 	public bool levelWon;
 	public bool levelOver;
@@ -23,40 +27,29 @@ public class GratingLevel : MonoBehaviour {
 		foodCollected = 0;
 		levelWon = false;
 		levelOver = false;
-		grates = 0;
+		circleSize = 5;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if(foodStolen >= maxFood){
-			levelWon = false;
-			levelOver = true;
-		}
-		if(grates >= 10){
+		if(circleSize >= 10){
 			levelWon = true;
 			levelOver = true;
 		}
 		if (grater.GetComponent<Grater> ().breakFood) {
 			makeFood = true;
+			circleSize += 1;
 			grater.GetComponent<Grater> ().breakFood = false;
 		} else {
 			makeFood = false;
 		}
-		// Track when each player is holding a gratable object
-		// Grating Objects creates food
+		// Update the circle's size here
+		circle.GetComponent<Transform>().transform.localScale = 
+			new Vector3 ((float)circleSize/10.0f,(float)circleSize/10.0f,11);
 	}
 
 	public void stealFood(){
-		foodStolen++;
-	}
-
-	public void collectFood(){
-		foodCollected++;
-		grates++;
-	}
-
-	public void completeGrate(){
-		foodCollected++;
+		circleSize -= 1;
 	}
 
 	public bool levelComplete(){

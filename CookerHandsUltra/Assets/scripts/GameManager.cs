@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public enum levels {titleScreen, cutting, sauteing, grating, gameOver};
+public enum levels {titleScreen, cutting, sauteing, grating, gameOver,
+	levelCuttingTransition, levelSauteingTransition, levelGratingTransition};
 
 public class GameManager : MonoBehaviour {
 
@@ -20,10 +21,17 @@ public class GameManager : MonoBehaviour {
     public GameObject cuttingLevel;
     public GameObject sauteingLevel;
     public GameObject gratingLevel;
+
+	// In Btw Levels
+	public GameObject cuttingLevelTransition;
+	public GameObject sauteingLevelTransition;
+	public GameObject gratingLevelTransition;
+
 	public GameObject plane;
 	public GameObject F;
 	public GameObject A;
 	public GameObject pan;
+	public GameObject overlayInformation;
 
 	// Sound Playing
 	public AudioClip plateCollectSound;
@@ -75,21 +83,36 @@ public class GameManager : MonoBehaviour {
 		// Do a reset if the game's over back to main title screen
 		// If the game's not over, check what level your on and track the state of that level
 		if (currentLevel == levels.titleScreen){
+			overlayInformation.SetActive (false);
 			if (Input.GetKey(KeyCode.Joystick1Button9) || Input.GetKey(KeyCode.Joystick2Button9)){
                 //Switch camera and scene from title to inbetween cutting level
-				cuttingLevel.SetActive(true);
+				cuttingLevelTransition.SetActive(true);
 				this.GetComponent<CameraController> ().CameraStart (titleScreen.transform.Find("Main Camera").GetComponent<Camera>(), 
-					cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>());
-				currentLevel = levels.cutting;
+					cuttingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>());
+				currentLevel = levels.levelCuttingTransition;
 				titleScreen.SetActive (false);
-				switchingLevels = true;
+			}
+		}
+		if (currentLevel == levels.levelCuttingTransition) {
+			// Go through the thing, then move to cutting level
+			if(Input.GetKeyUp(KeyCode.Joystick1Button1) || Input.GetKeyUp(KeyCode.Joystick2Button1)){
+				cuttingLevelTransition.GetComponentInChildren<stage1> ().inputState+=1;
+				if (cuttingLevelTransition.GetComponentInChildren<stage1> ().inputState >= 2) {
+					cuttingLevel.SetActive (true);
+					this.GetComponent<CameraController> ().CameraStart (cuttingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>(), 
+						cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>());
+					currentLevel = levels.cutting;
+					cuttingLevelTransition.SetActive (false);
+					overlayInformation.SetActive (true);
+					switchingLevels = true;
+				}
 			}
 		}
 		if (currentLevel == levels.cutting) {
+			overlayInformation.SetActive (true);
 			// Play spider sound
 			if(generator.GetComponent<Generator>().spiders.Count > 0){
 				if (!levelSoundEffects.isPlaying) {
-					Debug.Log ("Reaching Here");
 					levelSoundEffects.volume = 0.8f;
 					levelSoundEffects.clip = spiderSound;
 					levelSoundEffects.Play ();
@@ -112,12 +135,12 @@ public class GameManager : MonoBehaviour {
 			else if (cuttingLevel.GetComponent<CuttingLevel>().levelComplete()){
 				switchingLevels = true;
 				if (cuttingLevel.GetComponent<CuttingLevel> ().levelWon) {
-                    //Switch camera and scene from cutting to sauteing
-					sauteingLevel.SetActive(true);
+                    //Switch camera and scene from cutting to sauteing Intro
+					sauteingLevelTransition.SetActive(true);
+					overlayInformation.SetActive (false);
                     this.GetComponent<CameraController>().CameraStart(cuttingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
-                    	sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>());
-                    currentLevel = levels.sauteing;
-					switchingLevels = true;
+						sauteingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>());
+					currentLevel = levels.levelSauteingTransition;
 					cuttingLevel.SetActive (false);
 				} else {
 					currentLevel = levels.gameOver;
@@ -141,34 +164,37 @@ public class GameManager : MonoBehaviour {
 				switchingLevels = false;
 			}
 		}
+		if (currentLevel == levels.levelSauteingTransition) {
+			// Go through the thing, then move to cutting level
+			if(Input.GetKeyUp(KeyCode.Joystick1Button1) || Input.GetKeyUp(KeyCode.Joystick2Button1)){
+				sauteingLevelTransition.GetComponentInChildren<stage2> ().inputState+=1;
+				if (sauteingLevelTransition.GetComponentInChildren<stage2> ().inputState >= 1) {
+					sauteingLevel.SetActive (true);
+					this.GetComponent<CameraController> ().CameraStart (sauteingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>(), 
+						sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>());
+					currentLevel = levels.sauteing;
+					sauteingLevelTransition.SetActive (false);
+					overlayInformation.SetActive (true);
+					switchingLevels = true;
+				}
+			}
+		}
 		if (currentLevel == levels.sauteing) {
 
-            // did you run out of time
-			if (actualTime <= 0 && !gameOver){
-				sauteingLevel.SetActive (false);
-				this.GetComponent<CameraController> ().CameraStart (sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(), 
-					gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
-				gameOverLevel.SetActive (true);
-				gameOver = true;
-				gameWon = false;
-				if (levelSoundEffects.isPlaying) {
-					levelSoundEffects.Stop ();
-				}
-				levelSoundEffects.clip = gameOverSound;
-				levelSoundEffects.Play ();
-			}
-            else if (sauteingLevel.GetComponent<SauteingLevel>().levelComplete())
+			// Disregard time for this level
+			actualTime += Time.deltaTime;
+            if (sauteingLevel.GetComponent<SauteingLevel>().levelComplete())
             {
                 switchingLevels = true;
 				if (sauteingLevel.GetComponent<SauteingLevel>().levelWon)
                 {
-                    //Switch camera and scene from sauteing to grating
-					gratingLevel.SetActive(true);
-                    this.GetComponent<CameraController>().CameraStart(sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
-                    	gratingLevel.transform.Find("Main Camera").GetComponent<Camera>());
-                    currentLevel = levels.grating;
-                    switchingLevels = true;
-                    sauteingLevel.SetActive(false);
+                    //Switch camera and scene from sauteing to grating Intro
+					gratingLevelTransition.SetActive(true);
+					overlayInformation.SetActive (false);
+					this.GetComponent<CameraController>().CameraStart(sauteingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
+						gratingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>());
+					currentLevel = levels.levelGratingTransition;
+					sauteingLevel.SetActive (false);
                 }
                 else
                 {
@@ -194,6 +220,21 @@ public class GameManager : MonoBehaviour {
                 switchingLevels = false;
             }
         }
+		if (currentLevel == levels.levelGratingTransition) {
+			// Go through the thing, then move to cutting level
+			if(Input.GetKeyUp(KeyCode.Joystick1Button1) || Input.GetKeyUp(KeyCode.Joystick2Button1)){
+				gratingLevelTransition.GetComponentInChildren<stage3> ().inputState+=1;
+				if (gratingLevelTransition.GetComponentInChildren<stage3> ().inputState >= 1) {
+					gratingLevel.SetActive (true);
+					this.GetComponent<CameraController> ().CameraStart (gratingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>(), 
+						gratingLevel.transform.Find("Main Camera").GetComponent<Camera>());
+					currentLevel = levels.grating;
+					gratingLevelTransition.SetActive (false);
+					overlayInformation.SetActive (true);
+					switchingLevels = true;
+				}
+			}
+		}
 		if (currentLevel == levels.grating) {
             // is the level over
 			plane.SetActive(false);
@@ -219,6 +260,8 @@ public class GameManager : MonoBehaviour {
 					this.GetComponent<CameraController>().CameraStart(gratingLevel.transform.Find("Main Camera").GetComponent<Camera>(),
 						 gameOverLevel.transform.Find("Main Camera").GetComponent<Camera>());
 					currentLevel = levels.gameOver;
+					gameWon = true;
+					gameOver = true;
 					gratingLevel.SetActive(false);
 				}
 				else
@@ -301,9 +344,6 @@ public class GameManager : MonoBehaviour {
 			audioPlayer.clip = plateCollectSound;
 			audioPlayer.Play ();
 		}
-		if (currentLevel == levels.grating) {
-			gratingLevel.GetComponent<GratingLevel> ().collectFood ();
-		}
 	}
 
 	// tell level when to activate
@@ -312,6 +352,39 @@ public class GameManager : MonoBehaviour {
 			return true;
 		}
 		return false;
+	}
+
+	public float getLevelPercent(){
+		if (currentLevel == levels.cutting) {
+			return ((float)cuttingLevel.GetComponent<CuttingLevel> ().foodCollected /
+				(float)cuttingLevel.GetComponent<CuttingLevel> ().maxFood);
+		}
+		if (currentLevel == levels.sauteing) {
+			return ((float)sauteingLevel.GetComponent<SauteingLevel> ().currentTime /
+				(float)sauteingLevel.GetComponent<SauteingLevel> ().levelTimer);
+		}
+		if (currentLevel == levels.grating) {
+			return ((float)gratingLevel.GetComponent<GratingLevel> ().foodCollected / 
+				(float)gratingLevel.GetComponent<GratingLevel> ().maxFood);
+		}
+		return 0;
+
+	}
+
+	public float getLevelContaminatedPercent(){
+		if (currentLevel == levels.cutting) {
+			return ((float)cuttingLevel.GetComponent<CuttingLevel> ().foodStolen /
+				(float)cuttingLevel.GetComponent<CuttingLevel> ().maxFood);
+		}
+		if (currentLevel == levels.sauteing) {
+			return ((float)sauteingLevel.GetComponent<SauteingLevel> ().foodStolen /
+				(float)sauteingLevel.GetComponent<SauteingLevel> ().maxFood);
+		}
+		if (currentLevel == levels.grating) {
+			return ((float)gratingLevel.GetComponent<GratingLevel> ().foodStolen / 
+				(float)gratingLevel.GetComponent<GratingLevel> ().maxFood);
+		}
+		return 0f;
 	}
 
     //Reset

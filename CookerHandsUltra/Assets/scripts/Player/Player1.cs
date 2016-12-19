@@ -19,8 +19,6 @@ public class Player1 : MonoBehaviour {
 	public float enemiesSwatting;
 	public bool canSwat;
 	public GameObject gameManager;
-	bool reachedMaxHeight = false;
-	bool reachedMinHeight = false;
 
 	// Use this for initialization
 	void Start () {
@@ -91,30 +89,6 @@ public class Player1 : MonoBehaviour {
 			canSwat = true;
 			currentState = states.idle;
 		}
-			
-		if(gameManager.GetComponent<GameManager>().sauteingLevel.activeSelf){
-			// bounce code
-			float maxHeight = 1.5f;
-			float minHeight = 0.5f;
-			if (currentState == states.holding) {
-				if (transform.position.y >= maxHeight && !reachedMaxHeight){
-					reachedMaxHeight = true;
-				}
-				Debug.Log ("maxHeight" + reachedMaxHeight);
-				if (transform.position.y <= minHeight && reachedMaxHeight) {
-					reachedMinHeight = true;
-				}
-				Debug.Log ("minHeight" + reachedMinHeight);
-				if (reachedMaxHeight && reachedMinHeight) {
-					gameManager.GetComponent<GameManager> ().sauteingLevel.GetComponent<SauteingLevel> ().completeBounce ();
-					reachedMaxHeight = false;
-					reachedMinHeight = false;
-				}
-			} else {
-				reachedMaxHeight = false;
-				reachedMinHeight = false;
-			}
-		}
 		if (gameManager.GetComponent<GameManager> ().gratingLevel.activeSelf) {
 			transform.position = new Vector3 (transform.position.x,transform.position.y,11.0f);
 			// Track starting x position
@@ -124,20 +98,28 @@ public class Player1 : MonoBehaviour {
 	}
 
 	void OnTriggerStay(Collider col){
-		if (col.gameObject.tag == "knife" || col.gameObject.tag == "Pan" || col.gameObject.tag =="Cheese" ||
-			col.gameObject.tag =="Grater") {
+		if (col.gameObject.tag == "knife" || col.gameObject.tag == "Pan1" || col.gameObject.tag =="Cheese" ||
+				col.gameObject.tag =="Grater" || col.gameObject.tag == "Pan2") {
 			GrabbableObject obj = col.gameObject.GetComponent<GrabbableObject> ();
 			// ensure your not swatting or holding something else
 			if (currentState != states.swatting){
 				if (Input.GetKey(KeyCode.Joystick1Button1)) {
 					if (!obj.grabbed && currentState != states.holding) {
 						obj.toggleGrabbed (true, transform);
+						if (col.gameObject.tag == "Pan1" && currentState != states.holding || col.gameObject.tag == "Pan2" && currentState != states.holding) {
+							col.GetComponent<PanTracking> ().held = true;
+						}
 						currentState = states.holding;
+
 					} 
 				}else if(Input.GetKeyUp(KeyCode.Joystick1Button1)){
 					obj.toggleGrabbed (false, transform);
 					currentState = states.idle;
+					if (col.gameObject.tag == "Pan1" || col.gameObject.tag == "Pan2") {
+						col.GetComponent<PanTracking> ().held = false;
+					}
 				}	
+				
 			}
 		}
 		else
@@ -160,7 +142,7 @@ public class Player1 : MonoBehaviour {
 			}
 		}
 		else
-		if(col.gameObject.tag == "Enemy"){
+				if(col.gameObject.tag == "Enemy" && !(gameManager.GetComponent<GameManager>().getLevel() == -60.0f)){
 			// Kill the enemy and add to score based on enemy type
 			if (Input.GetKey(KeyCode.Joystick1Button0)){
 				if(currentState == states.idle){

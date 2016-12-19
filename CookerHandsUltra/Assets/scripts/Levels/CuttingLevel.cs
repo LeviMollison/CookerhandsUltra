@@ -23,12 +23,12 @@ public class CuttingLevel : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if((float)foodStolen / (float)maxFood > 7.0/10.0){
+		if(foodStolen >= maxFood){
 			levelWon = false;
 			levelOver = true;
 		}
 //		if((float)foodCollected / (float)maxFood > 7.0/10.0){
-		if(foodCollected >= 10){
+		if(foodCollected >= maxFood){
 			levelWon = true;
 			levelOver = true;
 		}
