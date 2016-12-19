@@ -44,14 +44,12 @@ public class SauteingLevel : MonoBehaviour {
 		Debug.Log (pan1Timer);
 		if (!pan1.GetComponent<PanTracking> ().held) {
 			pan1Timer += Time.deltaTime;
-			if (pan1Timer >= 0) {
-				pan1.GetComponent<PanTracking> ().panState = 1;
-			}
-			if (pan1Timer >= 2) {
-				pan1.GetComponent<PanTracking> ().panState = 2;
-			}
-			if (pan1Timer >= 4) {
+			if (pan1Timer > 4) {
 				pan1.GetComponent<PanTracking> ().panState = 3;
+			} else if (pan1Timer > 2) {
+				pan1.GetComponent<PanTracking> ().panState = 2;
+			} else {
+				pan1.GetComponent<PanTracking> ().panState = 1;
 			}
 			if (pan1Timer >= 5) {
 				levelWon = false;
@@ -63,14 +61,12 @@ public class SauteingLevel : MonoBehaviour {
 		}
 		if (!pan2.GetComponent<PanTracking> ().held) {
 			pan2Timer += Time.deltaTime;
-			if (pan2Timer >= 0) {
-				pan1.GetComponent<PanTracking> ().panState = 1;
-			}
-			if (pan2Timer >= 2) {
-				pan1.GetComponent<PanTracking> ().panState = 2;
-			}
-			if (pan2Timer >= 4) {
-				pan1.GetComponent<PanTracking> ().panState = 3;
+			if (pan2Timer > 4) {
+				pan2.GetComponent<PanTracking> ().panState = 3;
+			} else if (pan2Timer > 2) {
+				pan2.GetComponent<PanTracking> ().panState = 2;
+			} else {
+				pan2.GetComponent<PanTracking> ().panState = 1;
 			}
 			if (pan2Timer >= 5) {
 				levelWon = false;
