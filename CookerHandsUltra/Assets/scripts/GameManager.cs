@@ -28,8 +28,14 @@ public class GameManager : MonoBehaviour {
 	public GameObject gratingLevelTransition;
 
 	public GameObject plane;
+
+	// Grades
 	public GameObject F;
 	public GameObject A;
+	public GameObject B;
+	public GameObject C;
+	public GameObject D;
+
 	public GameObject pan;
 	public GameObject overlayInformation;
 
@@ -146,6 +152,8 @@ public class GameManager : MonoBehaviour {
 						sauteingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>());
 					currentLevel = levels.levelSauteingTransition;
 					cuttingLevel.SetActive (false);
+					playerOne.GetComponent<Player1> ().score += 10;
+					playerTwo.GetComponent<Player2> ().score += 10;
 				} else {
 					currentLevel = levels.gameOver;
 					gameOver = true;
@@ -213,6 +221,8 @@ public class GameManager : MonoBehaviour {
 					currentLevel = levels.levelGratingTransition;
 					sauteingLevel.SetActive (false);
 					audioPlayer.Stop ();
+					playerOne.GetComponent<Player1> ().score += 10;
+					playerTwo.GetComponent<Player2> ().score += 10;
                 }
                 else
                 {
@@ -294,6 +304,8 @@ public class GameManager : MonoBehaviour {
 					gameWon = true;
 					gameOver = true;
 					gratingLevel.SetActive(false);
+					playerOne.GetComponent<Player1> ().score += 10;
+					playerTwo.GetComponent<Player2> ().score += 10;
 				}
 				else
 				{
@@ -319,10 +331,23 @@ public class GameManager : MonoBehaviour {
 			if (!gameWon) {
 				// display F animation
 				F.SetActive (true);
-				A.SetActive (false);
 			} else {
-				A.SetActive (true);
-				F.SetActive (false);
+				float playerScores = playerOne.GetComponent<Player1> ().score + playerTwo.GetComponent<Player2> ().score;
+				if (playerScores >= 144) {
+					A.SetActive (true);
+				}
+				// B: kill 4 enemies per level
+				else if (playerScores >= 108){
+					B.SetActive (true);	
+				}
+				// C: kill 2 enemies per level
+				else if (playerScores >= 84){
+					C.SetActive (true);
+				}
+				// D: kill 1 enemy per level
+				else if (playerScores >= 72){
+					D.SetActive (true);
+				}
 			}
 			if(Input.GetKey(KeyCode.JoystickButton9)){
 				SceneManager.LoadScene(0);

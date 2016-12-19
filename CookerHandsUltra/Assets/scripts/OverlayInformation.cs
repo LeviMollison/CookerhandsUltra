@@ -22,7 +22,8 @@ public class OverlayInformation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// update 
+		// update
+		// Make sure to show correct information per level
 		playerOneScore = manager.playerOne.GetComponent<Player1>().score.ToString() + newLine;
 		playerTwoScore = manager.playerTwo.GetComponent<Player2> ().score.ToString() + newLine;
 		time = (int)manager.actualTime;

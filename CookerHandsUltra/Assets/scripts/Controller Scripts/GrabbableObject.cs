@@ -23,6 +23,10 @@ public class GrabbableObject : MonoBehaviour {
 	public void toggleGrabbed(bool val, Transform pHand){
 		// Testing Push
 		grabbed = val;
-		hand = pHand;
+		if (val) {
+			hand = pHand;
+		} else {
+			hand = null;
+		}
 	}
 }

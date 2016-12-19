@@ -86,7 +86,6 @@ public class Generator : MonoBehaviour {
                         if (food[i].collected)
                         {
                             manager.GetComponent<GameManager>().collectFoodInLevel();
-
                         }
                         else
                         {
