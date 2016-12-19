@@ -8,6 +8,10 @@ public class Grater : MonoBehaviour {
 	public float animationTime;
 	public float actualTime;
 
+	// Play sound
+	public AudioClip grate;
+	public AudioSource audioPlayer;
+
 	// Use this for initialization
 	void Start () {
 		breakFood = false;
@@ -37,6 +41,13 @@ public class Grater : MonoBehaviour {
 				gratingAnim.transform.position = new Vector3 (transform.position.x, 
 					transform.position.y + 1.0f, transform.position.z);
 				actualTime = animationTime;
+
+				if (audioPlayer.isPlaying) {
+					audioPlayer.Stop ();
+				}
+				audioPlayer.volume = 0.7f;
+				audioPlayer.clip = grate;
+				audioPlayer.Play ();
 			}
 		}
 	}

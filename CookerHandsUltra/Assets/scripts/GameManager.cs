@@ -36,9 +36,13 @@ public class GameManager : MonoBehaviour {
 	// Sound Playing
 	public AudioClip plateCollectSound;
 	public AudioClip spiderSound;
+	public AudioClip foodSizzle;
+	public AudioClip flyBuzz;
+	public AudioClip mouseSqueak;
 	public AudioClip gameOverSound;
 	public AudioSource audioPlayer;
 	public AudioSource levelSoundEffects;
+	public float waitTime = 0f;
 
     //Generates the food, spiders, flies, mice
     public GameObject generator;
@@ -183,6 +187,19 @@ public class GameManager : MonoBehaviour {
 
 			// Disregard time for this level
 			actualTime += Time.deltaTime;
+			// Play Sounds
+			if (!audioPlayer.isPlaying) {
+				audioPlayer.volume = 0.8f;
+				audioPlayer.clip = foodSizzle;
+				audioPlayer.Play ();
+			}
+			if(generator.GetComponent<Generator>().flies.Count > 0){
+				if (!levelSoundEffects.isPlaying) {
+					levelSoundEffects.volume = 0.8f;
+					levelSoundEffects.clip = flyBuzz;
+					levelSoundEffects.Play ();
+				}
+			}
             if (sauteingLevel.GetComponent<SauteingLevel>().levelComplete())
             {
                 switchingLevels = true;
@@ -195,6 +212,7 @@ public class GameManager : MonoBehaviour {
 						gratingLevelTransition.transform.Find("Main Camera").GetComponent<Camera>());
 					currentLevel = levels.levelGratingTransition;
 					sauteingLevel.SetActive (false);
+					audioPlayer.Stop ();
                 }
                 else
                 {
@@ -211,6 +229,7 @@ public class GameManager : MonoBehaviour {
 					levelSoundEffects.clip = gameOverSound;
 					levelSoundEffects.Play ();
 					switchingLevels = false;
+					audioPlayer.Stop ();
                 }
             }
             if (switchingLevels)
@@ -236,6 +255,18 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		if (currentLevel == levels.grating) {
+			// Play Sounds
+			if(generator.GetComponent<Generator>().mice.Count > 0){
+				if (waitTime <= 0f) {
+					if (!levelSoundEffects.isPlaying) {
+						levelSoundEffects.volume = 0.8f;
+						levelSoundEffects.clip = mouseSqueak;
+						levelSoundEffects.Play ();
+						waitTime = 1f;
+					}
+				}
+				waitTime -= Time.deltaTime;
+			}
             // is the level over
 			plane.SetActive(false);
 			if (actualTime <= 0 && !gameOver){
