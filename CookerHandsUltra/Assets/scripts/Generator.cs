@@ -313,6 +313,12 @@ public class Generator : MonoBehaviour {
 				}
 			}//End of Mouse Generator	
 		}//End of LevelOn
+		else {
+			clearFly ();
+			clearFood ();
+			clearMouse ();
+			clearSpider ();
+		}
     }//End of Update
 
     //Clear food list

@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "5.01/OSX64" 1482181039
+<REAPER_PROJECT 0.1 "5.01/OSX64" 1482208830
   RIPPLE 0
   GROUPOVERRIDE 0 0 0
   AUTOXFADE 1
@@ -26,7 +26,7 @@
   >
   <APPLYFX_CFG
   >
-  RENDER_FILE "/Users/Akira/Documents/Senior Year Fall 2016/Intro to Game Dev/Cookerhands Ultra/CookerHandsUltra/Assets/Sounds/grate_sound.wav"
+  RENDER_FILE "/Users/Akira/Documents/Senior Year Fall 2016/Intro to Game Dev/Cookerhands Ultra/CookerHandsUltra/Assets/Sounds/cutting_sound.wav"
   RENDER_FMT 0 2 44100
   RENDER_1X 0
   RENDER_RANGE 1 0 0.8

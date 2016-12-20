@@ -25,6 +25,8 @@ public class Player2 : MonoBehaviour {
 	public bool canSwat;
 	public GameObject gameManager;
 	public bool holdingFood;
+	public bool holdingKnife;
+	public Camera cuttingLevelCam;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +36,7 @@ public class Player2 : MonoBehaviour {
 		canSwat = true;
 		recentlySwatted = false;
 		holdingFood = false;
+		holdingKnife = false;
 	}
 
 
@@ -133,6 +136,9 @@ public class Player2 : MonoBehaviour {
 				if (Input.GetKey (KeyCode.Joystick2Button1)) {
 					if (!obj.grabbed) {
 						obj.toggleGrabbed (true, transform);
+						if (col.gameObject.tag == "knife") {
+							holdingKnife = true;
+						}
 						if (col.gameObject.tag == "Pan1" && currentState != states.holding
 							|| col.gameObject.tag == "Pan2" && currentState != states.holding) {
 							col.GetComponent<PanTracking> ().held = true;
@@ -149,6 +155,7 @@ public class Player2 : MonoBehaviour {
 					if (col.gameObject.tag == "Pan1" || col.gameObject.tag == "Pan2") {
 						col.GetComponent<PanTracking> ().held = false;
 					}
+					holdingKnife = false;
 				}
 			}
 		} 
@@ -205,6 +212,11 @@ public class Player2 : MonoBehaviour {
 				col.gameObject.GetComponent<Enemy>().kill();
 				score += 3;
 			}
+		}
+		if (col.gameObject.tag == "Player" && holdingKnife) {
+			col.gameObject.GetComponent<Player1> ().score -= 3;
+			cuttingLevelCam.GetComponent<camShake>().ShakeCam (1f, 0.5f);
+			transform.position = new Vector3 (transform.position.x - 1.5f, transform.position.y, transform.position.z);
 		}
 	}
 

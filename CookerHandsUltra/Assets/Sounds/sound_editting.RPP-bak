@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "5.01/OSX64" 1482151076
+<REAPER_PROJECT 0.1 "5.01/OSX64" 1482181039
   RIPPLE 0
   GROUPOVERRIDE 0 0 0
   AUTOXFADE 1
@@ -14,7 +14,7 @@
   VIDEO_CONFIG 0 0 256
   PANMODE 3
   CURSOR 0
-  ZOOM 180.85855208695574 0 0
+  ZOOM 492.98749466761052 0 0
   VZOOMEX 6
   USE_REC_CFG 0
   RECMODE 1
@@ -26,7 +26,7 @@
   >
   <APPLYFX_CFG
   >
-  RENDER_FILE "/Users/Akira/Documents/Senior Year Fall 2016/Intro to Game Dev/Cookerhands Ultra/CookerHandsUltra/Assets/Sounds/fly_buzz_sound.wav"
+  RENDER_FILE "/Users/Akira/Documents/Senior Year Fall 2016/Intro to Game Dev/Cookerhands Ultra/CookerHandsUltra/Assets/Sounds/grate_sound.wav"
   RENDER_FMT 0 2 44100
   RENDER_1X 0
   RENDER_RANGE 1 0 0.8
@@ -54,8 +54,8 @@
   GLOBAL_AUTO -1
   TEMPO 120 4 4
   PLAYRATE 1 0 0.25 4
-  SELECTION 3.5 0
-  SELECTION2 3.5 0
+  SELECTION 0 0.92961451247166
+  SELECTION2 0 0.92961451247166
   MASTERAUTOMODE 0
   MASTERTRACKHEIGHT 0
   MASTERPEAKCOL 16576
@@ -82,8 +82,8 @@
   >
   <PROJBAY
   >
-  <TRACK {F40A05ED-46F8-204E-883C-6A7BE577238B}
-    NAME 116780__domrodrig__scraping-a-grate-surprise
+  <TRACK {D15D674A-E14B-3145-9824-1AC5667E35F2}
+    NAME cutting_sound
     PEAKCOL 16576
     BEAT -1
     AUTOMODE 0
@@ -101,7 +101,7 @@
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
-    TRACKID {F40A05ED-46F8-204E-883C-6A7BE577238B}
+    TRACKID {D15D674A-E14B-3145-9824-1AC5667E35F2}
     PERF 0
     MIDIOUT -1
     MAINSEND 1 0
@@ -115,16 +115,16 @@
       FADEOUT 1 0.01 0 1 0 0
       MUTE 0
       SEL 1
-      IGUID {74085538-CCE5-544D-AC34-000A62A9A519}
-      IID 8
-      NAME 116780__domrodrig__scraping-a-grate-surprise.wav
+      IGUID {0414F53F-45B1-6B4B-AB2E-71DA596AB72D}
+      IID 12
+      NAME 163275__qubodup__cutting-zucchini.flac
       VOLPAN 1 0 1 -1
       SOFFS 0
       PLAYRATE 1 1 0 -1 0 0.0025
       CHANMODE 0
-      GUID {8EECD25C-C90F-654A-9613-69A209E15AD0}
-      <SOURCE WAVE
-        FILE "116780__domrodrig__scraping-a-grate-surprise.wav"
+      GUID {B19C4B92-5AD1-A246-8C7C-6A19426A7CA1}
+      <SOURCE FLAC
+        FILE "163275__qubodup__cutting-zucchini.flac"
       >
     >
   >

@@ -32,7 +32,6 @@ public class finish : MonoBehaviour {
 			finalScene.SetActive(false);
 			finalSceneAnimated.SetActive (true);
 			animtime += Time.deltaTime;
-			Debug.Log (animtime);
 			if (animtime >= 1f) {
 				inputState += 1;
 				introText = "Press O to Continue.";

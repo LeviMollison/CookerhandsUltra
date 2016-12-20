@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject B;
 	public GameObject C;
 	public GameObject D;
+	public GameObject randomFood;
 
 	public GameObject pan;
 	public GameObject overlayInformation;
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviour {
 	public AudioClip mouseSqueak;
 	public AudioClip gameOverSound;
 	public AudioClip bgMusicOne;
-	public AudioClip victory;
+	public AudioClip victory; public int playedVictorySound = 0;
 
 	public AudioSource audioPlayer;
 	public AudioSource levelSoundEffects;
@@ -90,9 +91,9 @@ public class GameManager : MonoBehaviour {
 		// If the game's not over, check what level your on and track the state of that level
 		if (currentLevel == levels.titleScreen) {
 			if (!bgMusic.isPlaying) {
-				bgMusic.clip = bgMusicOne;
-				bgMusic.volume = 0.8f;
-				bgMusic.Play ();
+					bgMusic.clip = bgMusicOne;
+					bgMusic.volume = 0.8f;
+					bgMusic.Play ();
 			}
 			overlayInformation.SetActive (false);
 			if (Input.GetKey (KeyCode.Joystick1Button9) || Input.GetKey (KeyCode.Joystick2Button9)) {
@@ -286,7 +287,7 @@ public class GameManager : MonoBehaviour {
 						levelSoundEffects.volume = 0.8f;
 						levelSoundEffects.clip = mouseSqueak;
 						levelSoundEffects.Play ();
-						waitTime = 1f;
+						waitTime = 2f;
 					}
 				}
 				waitTime -= Time.deltaTime;
@@ -337,7 +338,6 @@ public class GameManager : MonoBehaviour {
 					if (levelSoundEffects.isPlaying) {
 						levelSoundEffects.Stop ();
 					}
-					bgMusic.Stop ();
 					levelSoundEffects.clip = gameOverSound;
 					levelSoundEffects.Play ();
 					switchingLevels = false;
@@ -349,6 +349,7 @@ public class GameManager : MonoBehaviour {
 			if(Input.GetKeyUp(KeyCode.Joystick1Button2) || Input.GetKeyUp(KeyCode.Joystick2Button2)){
 				if (gameOverTransition.GetComponentInChildren<finish> ().inputState < 1) {
 					gameOverTransition.GetComponentInChildren<finish> ().inputState+=1;
+					waitTime = 0f;
 				}
 				if (gameOverTransition.GetComponentInChildren<finish> ().inputState >= 2) {
 					gameOverLevel.SetActive (true);
@@ -360,8 +361,6 @@ public class GameManager : MonoBehaviour {
 					if (bgMusic.isPlaying) {
 						bgMusic.Stop ();
 					}
-					bgMusic.clip = victory;
-					bgMusic.Play ();
 					switchingLevels = true;
 				}
 			}
@@ -372,7 +371,18 @@ public class GameManager : MonoBehaviour {
 			if (!gameWon) {
 				// display F animation
 				F.SetActive (true);
+				randomFood.SetActive (false);
 			} else {
+				if (waitTime <= 0f) {
+					if (!bgMusic.isPlaying) {
+						bgMusic.volume = 0.8f;
+						bgMusic.clip = victory;
+						bgMusic.Play ();
+						waitTime = 30f;
+					}
+				}
+				waitTime -= Time.deltaTime;
+				randomFood.SetActive (true);
 				float playerScores = playerOne.GetComponent<Player1> ().score + playerTwo.GetComponent<Player2> ().score;
 				if (playerScores >= 144) {
 					A.SetActive (true);
