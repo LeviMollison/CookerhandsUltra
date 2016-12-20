@@ -41,7 +41,6 @@ public class SauteingLevel : MonoBehaviour {
 			levelWon = false;
 			levelOver = true;
 		}
-		Debug.Log (pan1Timer);
 		if (!pan1.GetComponent<PanTracking> ().held) {
 			pan1Timer += Time.deltaTime;
 			if (pan1Timer > 4) {

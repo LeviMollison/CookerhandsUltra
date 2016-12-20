@@ -31,11 +31,6 @@ public class FoodClass : MonoBehaviour {
 			}
 		}
 
-        if(transform.parent == null && transform.position.y > -2.4f)
-        {
-			
-        }
-
         if (transform.position.y == -2.4f)
         {
             countDown = countDown - 0.01f;

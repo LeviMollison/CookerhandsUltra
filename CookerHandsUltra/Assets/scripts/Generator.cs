@@ -74,6 +74,19 @@ public class Generator : MonoBehaviour {
 					manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().makeFood = false;
 
 				}
+				// Create when level starts
+				if (manager.GetComponent<GameManager>().gratingLevel.GetComponent<GratingLevel>().levelStarted){
+					manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().levelStarted = false;
+					for (int k = 0; k < manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().circleSize;
+						k++) {
+						position = new Vector3(manager.GetComponent<GameManager>().getLevel(), 
+							Random.Range(-3,3f), 11f);
+						FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
+						//Counter for how long food remains in one location before "target" is set false
+						item.GetComponent<FoodClass>().delay = 1000f;
+						food.Add(item);	
+					}
+				}
 			}
 
             for (int i = 0; i < food.Count; i++)
@@ -285,7 +298,6 @@ public class Generator : MonoBehaviour {
 							mice.RemoveAt (i);
 						} else if (mice [i].transform.position.x > -47f && mice [i].target != null) {
 							mice [i].target.transform.parent = null;
-							manager.GetComponent<GameManager>().stealFoodInLevel();
 							Destroy (mice [i].gameObject);
 							mice.RemoveAt (i);
 						}

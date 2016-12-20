@@ -9,6 +9,7 @@ public class GratingLevel : MonoBehaviour {
 	public int maxFood;
 	public int foodStolen;
 	public bool makeFood;
+	public bool levelStarted;
 	public GameObject cheese;
 	public GameObject grater;
 	public GameObject circle;
@@ -27,13 +28,18 @@ public class GratingLevel : MonoBehaviour {
 		foodCollected = 0;
 		levelWon = false;
 		levelOver = false;
-		circleSize = 5;
+		circleSize = 3;
+		levelStarted = true;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if(circleSize >= 10){
+		if(circleSize >= maxFood){
 			levelWon = true;
+			levelOver = true;
+		}
+		else if (circleSize <= 0) {
+			levelWon = false;
 			levelOver = true;
 		}
 		if (grater.GetComponent<Grater> ().breakFood) {
@@ -45,7 +51,7 @@ public class GratingLevel : MonoBehaviour {
 		}
 		// Update the circle's size here
 		circle.GetComponent<Transform>().transform.localScale = 
-			new Vector3 ((float)circleSize/10.0f,(float)circleSize/10.0f,11);
+			new Vector3 (((float)circleSize/10.0f) + 1.0f,((float)circleSize/10.0f) + 1.0f,11);
 	}
 
 	public void stealFood(){
