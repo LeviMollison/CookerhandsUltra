@@ -20,10 +20,13 @@ public class Generator : MonoBehaviour {
 
     private Vector3 position;
     private float delay;
+
+	// levi
+	public float levelStartTimer;
     
     // Use this for initialization
     void Start () {
-	
+		levelStartTimer = 0;
 	}
 	
 	// Update is called once per frame
@@ -76,15 +79,20 @@ public class Generator : MonoBehaviour {
 				}
 				// Create when level starts
 				if (manager.GetComponent<GameManager>().gratingLevel.GetComponent<GratingLevel>().levelStarted){
-					manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().levelStarted = false;
-					for (int k = 0; k < manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().circleSize;
-						k++) {
-						position = new Vector3(manager.GetComponent<GameManager>().getLevel(), 
-							Random.Range(-3,3f), 11f);
-						FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
-						//Counter for how long food remains in one location before "target" is set false
-						item.GetComponent<FoodClass>().delay = 1000f;
-						food.Add(item);	
+					// wait 2 seconds then start
+					if (levelStartTimer >= 1) {
+						manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().levelStarted = false;
+						for (int k = 0; k < manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().circleSize;
+							k++) {
+							position = new Vector3(manager.GetComponent<GameManager>().getLevel(), 
+								Random.Range(-3,3f), 11f);
+							FoodClass item = (FoodClass)Instantiate(slice, position, transform.rotation);
+							//Counter for how long food remains in one location before "target" is set false
+							item.GetComponent<FoodClass>().delay = 1000f;
+							food.Add(item);	
+						}
+					} else {
+						levelStartTimer += Time.deltaTime;
 					}
 				}
 			}

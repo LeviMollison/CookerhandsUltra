@@ -15,9 +15,18 @@ public class stage3 : MonoBehaviour {
 	void Update () {
         if (inputState == 0)
         {
-            myText = "Stage 3: The Cheese Grating\n\nYou become impressed on the progress you have made; however, the health inspector is growing more impatient and demands the food to be done soon.\nYou prepare your cheese until you see rodents crawling around the area.\nYou roll up your sleeves and decide to teach the rats who's the real boss in this kitchen.\n\n ";
-            myText += "Press X to Continue.";
+            myText = "Stage 3: The Cheese Grating\n\nYou become impressed on the progress you have made; however, " +
+            	"the health inspector is growing more impatient and demands the food to be done soon.\n" +
+            	"You prepare your cheese until you see rodents crawling around the area.\n" +
+            	"You roll up your sleeves and decide to teach the rats who's the real boss in this kitchen.\n\n ";
+            myText += "Press O to Continue.";
         }
+		if (inputState == 1) {
+			myText = "Directions:\n";
+			myText += "Hold X to Pick Up a Pan or Grater \n";
+			myText += "Move the Grater along the cheese to create cheese chunks\n";
+			myText += "Fill the white circle with more cheese than the rats can take!";
+		}
         GetComponent<Text>().text = myText;
     }
 }

@@ -3,27 +3,41 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class finish : MonoBehaviour {
-    public string currentRoom;
-    public string myText;
+    public int inputState;
+    public string introText;
+	public GameObject finalSceneAnimated;
+	public GameObject finalScene;
+
+	public float animtime;
 
     // Use this for initialization
     void Start () {
-        myText = "We ran our scene.";
-        currentRoom = "title";
-
+        introText = "We ran our scene.";
+        inputState = 0;
+		animtime = 0f;
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (currentRoom == "title")
+        if (inputState == 0)
         {
-            myText = "It's Judgement Time\n\nYou successful cooked a dish and made some final touches to the plate.\nYou walk up to the door and you see the health inspector smile at you with his grade book right in his hand.\nYou sigh and prepare to go into the room and serve him your signature dish.\n\n";
-            myText += "Press X to Continue.";
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                currentRoom = "livingroom";
-            }
+            introText = "It's Judgement Time\n\nYou successful cooked a dish and made some final touches to the plate.\n" +
+            	"You walk up to the door and you see the health inspector smile at you with his grade book right in his hand." +
+            	"\nYou sigh and prepare to go into the room and serve him your signature dish.\n\n";
+            introText += "Press O to Continue.";
+       
         }
-        GetComponent<Text>().text = myText;
+		if (inputState == 1) {
+			// run door opening animation for 2 seconds, then trasition
+			finalScene.SetActive(false);
+			finalSceneAnimated.SetActive (true);
+			animtime += Time.deltaTime;
+			Debug.Log (animtime);
+			if (animtime >= 1f) {
+				inputState += 1;
+				introText = "Press O to Continue.";
+			}
+		}
+        GetComponent<Text>().text = introText;
     }
 }

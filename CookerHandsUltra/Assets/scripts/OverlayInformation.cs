@@ -42,12 +42,6 @@ public class OverlayInformation : MonoBehaviour {
 		if (manager.getLevel() == 0.0f){
 			playerOneScore = manager.playerOne.GetComponent<Player1>().score.ToString() + newLine;
 			playerTwoScore = manager.playerTwo.GetComponent<Player2> ().score.ToString() + newLine;
-			// Pan 1 timer
-			string pan1Timer;
-			pan1Timer = ((int)manager.sauteingLevel.GetComponent<SauteingLevel> ().pan1Timer).ToString() + newLine;
-			// Pan 2 timer
-			string pan2Timer;
-			pan2Timer = ((int)manager.sauteingLevel.GetComponent<SauteingLevel> ().pan2Timer).ToString() + newLine;
 			// Level time remaining
 			string levelTimeRemaining;
 			levelTimeRemaining = ((int)manager.sauteingLevel.GetComponent<SauteingLevel> ().levelTimer).ToString() + newLine;
@@ -57,8 +51,6 @@ public class OverlayInformation : MonoBehaviour {
 				"Player 1 Score: " + playerOneScore
 				+ "Player 2 Score: " + playerTwoScore
 				+ "Time till level won: " + levelTimeRemaining
-				+ "Pan1 idle time: " + pan1Timer
-				+ "Pan2 idle time: " + pan2Timer
 				+ "Contaminated Foods " + foodContaminated;
 		}
 		// Level 3: Grating
@@ -89,7 +81,7 @@ public class OverlayInformation : MonoBehaviour {
 				"Player 1 Score: " + playerOneScore
 			+ "Player 2 Score: " + playerTwoScore
 				+ newLine + newLine 
-				+"To Play Again Press the Options Key";
+				+"Press Options \nto Play Again";
 		}
 		GetComponent<Text> ().text = overlay;
 	}

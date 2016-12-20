@@ -12,6 +12,7 @@ public class FoodClass : MonoBehaviour {
     public bool collectable = false;
 	public bool collected = false;
 	public GameObject manager;
+	public Sprite cutGarlic;
 
 
 	// Use this for initialization
@@ -43,7 +44,11 @@ public class FoodClass : MonoBehaviour {
 
         if (cut)
         {
-            this.GetComponent<Renderer>().material.color = Color.red;
+			this.GetComponent<SpriteRenderer> ().sprite = cutGarlic;
+			if (!collectable) {
+				transform.localScale = new Vector3 (transform.localScale.x * 0.5f, transform.localScale.y * 0.5f, 
+					transform.localScale.z);
+			}
             collectable = true;
         }
 	}
