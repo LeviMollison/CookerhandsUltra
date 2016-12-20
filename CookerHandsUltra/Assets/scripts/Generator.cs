@@ -80,7 +80,7 @@ public class Generator : MonoBehaviour {
 				// Create when level starts
 				if (manager.GetComponent<GameManager>().gratingLevel.GetComponent<GratingLevel>().levelStarted){
 					// wait 2 seconds then start
-					if (levelStartTimer >= 1) {
+					if (levelStartTimer >= 2) {
 						manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().levelStarted = false;
 						for (int k = 0; k < manager.GetComponent<GameManager> ().gratingLevel.GetComponent<GratingLevel> ().circleSize;
 							k++) {

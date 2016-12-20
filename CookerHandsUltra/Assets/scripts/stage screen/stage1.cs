@@ -18,7 +18,7 @@ public class stage1 : MonoBehaviour {
 	void Update () {
         if (inputState == 0)
         {
-            introText = "Resturant: Droite gauche \n\nMission: This pest infested C-rated restaurant needs your help to save the place from shutting down. We need your magic hands to keep the restaurant's food pest-free and keep the health inspector happy.\n\nPress O to Continue";
+            introText = "Resturant: Droite gauche \n\nMission: This pest infested C-rated restaurant needs your help to save the place from shutting down. We need your magic hands to keep the restaurant's food pest-free and keep the health inspector happy.\nPress O to Continue";
 
         }
         else if (inputState == 1)

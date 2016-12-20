@@ -111,6 +111,7 @@
 'Assets/scripts/Player/Player1.cs'
 'Assets/scripts/Player/Player2.cs'
 'Assets/scripts/ScreenShake.cs'
+'Assets/scripts/camShake.cs'
 'Assets/scripts/ignoreTheGround.cs'
 'Assets/scripts/instruction.cs'
 'Assets/scripts/stage screen/finish.cs'
